@@ -11,7 +11,8 @@ namespace Domain
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public int ClassId { get; set; }
+        [Required]
+        public int? ClassId { get; set; }
         public Class Class { get; set; }
 
         [MaxLength(50)]

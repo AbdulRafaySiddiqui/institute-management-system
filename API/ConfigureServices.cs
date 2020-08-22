@@ -7,7 +7,10 @@ namespace API
     {
         public static IServiceCollection UseModelServices(this IServiceCollection services)
         {
-            services.AddScoped<IBranchService,BranchService>();
+            services.AddScoped<IBranchService, BranchService>();
+            services.AddScoped<IClassService, ClassService>();
+            services.AddScoped<IBatchService, BatchService>();
+            services.AddScoped<ICourseService, CourseService>();
             return services;
         }
     }

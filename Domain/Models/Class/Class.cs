@@ -13,7 +13,8 @@ namespace Domain
 
         public virtual List<Batch> Batches { get; set; }
 
-        public int BranchId { get; set; }
+        [Required]
+        public int? BranchId { get; set; }
         public virtual Branch Branch { get; set; }
     }
 }

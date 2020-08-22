@@ -3,18 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Persistence
 {
     public class BaseService<T> : IBaseService<T> where T : BaseModel
     {
-        private ImsContext _context = null;
-        private DbSet<T> _entity = null;
+        protected ImsContext _context = null;
+        protected DbSet<T> _entity = null;
 
-        public BaseService(ImsContext _context)
+        public BaseService(ImsContext context)
         {
-            this._context = _context;
+            _context = context;
             _entity = _context.Set<T>();
         }
 
@@ -26,6 +27,24 @@ namespace Persistence
         public async Task<T> GetByIdAsync(int id)
         {
             return await _entity.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync<TValue>(
+            Expression<Func<T, TValue>> func,
+            TValue value,
+            Expression<Func<T, object>>[] includeFuncs)
+        {
+            var predicate =
+                Expression.Lambda<Func<T, bool>>(
+                    Expression.Equal(func.Body, Expression.Constant(value)),
+                    func.Parameters.Single());
+
+            var query = _entity.Where(predicate);
+            foreach (var include in includeFuncs)
+            {
+                query = query.Include(include);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<T> AddAsync(T obj)
@@ -56,5 +75,14 @@ namespace Persistence
         {
             await _context.SaveChangesAsync();
         }
+
+        public int GetKey(T obj)
+        {
+            var keyName = _context.Model.FindEntityType(typeof(T)).FindPrimaryKey().Properties
+                .Select(x => x.Name).Single();
+
+            return (int)obj.GetType().GetProperty(keyName).GetValue(obj, null);
+        }
+
     }
 }

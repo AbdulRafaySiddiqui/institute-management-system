@@ -18,7 +18,8 @@ namespace Domain
 
         public bool IsActive { get; set; } = true;
 
-        public int ClassId { get; set; }
+        [Required]
+        public int? ClassId { get; set; }
         public virtual Class Class { get; set; }
 
         public virtual List<TeacherCourse> TeacherCourses { get; set; }
