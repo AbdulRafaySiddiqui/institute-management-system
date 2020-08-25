@@ -1,14 +1,12 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence
+namespace Persistences
 {
-    public class ImsContext : DbContext
+    public class ImsContext : IdentityDbContext<User>
     {
-        public ImsContext(DbContextOptions<ImsContext> options) : base (options)
-        {
-
-        }
+        public ImsContext(DbContextOptions<ImsContext> options) : base(options) { }
 
         public DbSet<Branch> Branches { get; set; }
 
@@ -52,14 +50,15 @@ namespace Persistence
         public DbSet<Expanse> Expanses { get; set; }
         public DbSet<ExpanseType> ExpanseTypes { get; set; }
 
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<UserType> UserTypes { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder.UseConfigureModels());
+            base.OnModelCreating(modelBuilder
+            .UseConfigureModels()
+            .Seed());
         }
     }
 }

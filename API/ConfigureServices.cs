@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using Persistence;
+using Services;
 
 namespace API
 {
@@ -11,6 +11,7 @@ namespace API
             services.AddScoped<IClassService, ClassService>();
             services.AddScoped<IBatchService, BatchService>();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }

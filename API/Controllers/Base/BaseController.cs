@@ -1,7 +1,8 @@
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Persistence;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace API
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class BaseController<T, Service> : ControllerBase
     where T : BaseModel

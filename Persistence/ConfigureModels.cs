@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence
+namespace Persistences
 {
     public static class  ConfigureModels
     {

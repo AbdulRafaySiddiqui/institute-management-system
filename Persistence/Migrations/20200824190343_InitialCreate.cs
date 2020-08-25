@@ -8,14 +8,28 @@ namespace Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Branches",
                 columns: table => new
                 {
                     BranchId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
@@ -25,14 +39,32 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Expanses",
+                columns: table => new
+                {
+                    ExpanseId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    DateTimeCreated = table.Column<DateTime>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
+                    DateTimeModified = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(maxLength: 256, nullable: false),
+                    Amount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Expanses", x => x.ExpanseId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Fields",
                 columns: table => new
                 {
                     FieldId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     PersonType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
@@ -52,9 +84,9 @@ namespace Persistence.Migrations
                 {
                     PhotoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Data = table.Column<byte[]>(nullable: true)
                 },
@@ -64,20 +96,41 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserType",
+                name: "UserTypes",
                 columns: table => new
                 {
                     UserTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserType", x => x.UserTypeId);
+                    table.PrimaryKey("PK_UserTypes", x => x.UserTypeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,9 +139,9 @@ namespace Persistence.Migrations
                 {
                     ClassId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     BranchId = table.Column<int>(nullable: false)
@@ -110,9 +163,9 @@ namespace Persistence.Migrations
                 {
                     ExpanseTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     BranchId = table.Column<int>(nullable: true)
@@ -134,9 +187,9 @@ namespace Persistence.Migrations
                 {
                     FeeTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     IsIndividual = table.Column<bool>(nullable: false),
@@ -159,9 +212,9 @@ namespace Persistence.Migrations
                 {
                     GuardianTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     BranchId = table.Column<int>(nullable: false)
@@ -183,9 +236,9 @@ namespace Persistence.Migrations
                 {
                     SettingName = table.Column<string>(maxLength: 256, nullable: false),
                     BranchId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Value = table.Column<string>(maxLength: 256, nullable: false)
                 },
@@ -206,9 +259,9 @@ namespace Persistence.Migrations
                 {
                     StaffCategoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Prefix = table.Column<string>(maxLength: 100, nullable: true),
@@ -231,9 +284,9 @@ namespace Persistence.Migrations
                 {
                     StudentIdTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     CodeName = table.Column<string>(maxLength: 100, nullable: false),
                     NoOfDigits = table.Column<int>(nullable: true),
@@ -256,9 +309,9 @@ namespace Persistence.Migrations
                 {
                     TeacherRankId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Prefix = table.Column<string>(maxLength: 50, nullable: false),
@@ -281,9 +334,9 @@ namespace Persistence.Migrations
                 {
                     FieldValueId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Value = table.Column<string>(maxLength: 100, nullable: false),
                     FieldId = table.Column<int>(nullable: true)
@@ -305,9 +358,9 @@ namespace Persistence.Migrations
                 {
                     StaffFieldId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Value = table.Column<string>(maxLength: 100, nullable: false),
                     FieldId = table.Column<int>(nullable: false),
@@ -325,39 +378,50 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "AspNetUsers",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    PasswordHash = table.Column<byte[]>(nullable: false),
-                    Salt = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
                     PhotoId = table.Column<int>(nullable: true),
-                    UserTypeId = table.Column<int>(nullable: false),
-                    BranchId = table.Column<int>(nullable: false)
+                    UserTypeId = table.Column<int>(nullable: true),
+                    BranchId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.UserId);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_User_Branches_BranchId",
+                        name: "FK_AspNetUsers_Branches_BranchId",
                         column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "BranchId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_User_Photo_PhotoId",
+                        name: "FK_AspNetUsers_Photo_PhotoId",
                         column: x => x.PhotoId,
                         principalTable: "Photo",
                         principalColumn: "PhotoId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_User_UserType_UserTypeId",
+                        name: "FK_AspNetUsers_UserTypes_UserTypeId",
                         column: x => x.UserTypeId,
-                        principalTable: "UserType",
+                        principalTable: "UserTypes",
                         principalColumn: "UserTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -366,9 +430,9 @@ namespace Persistence.Migrations
                 {
                     BatchId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
@@ -393,9 +457,9 @@ namespace Persistence.Migrations
                 {
                     CourseId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     ClassId = table.Column<int>(nullable: false),
@@ -418,9 +482,9 @@ namespace Persistence.Migrations
                 {
                     GuardianId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     PhotoId = table.Column<int>(nullable: true),
                     GuardianTypeId = table.Column<int>(nullable: false)
@@ -448,9 +512,9 @@ namespace Persistence.Migrations
                 {
                     StaffId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Salary = table.Column<int>(nullable: false),
                     HasLeft = table.Column<bool>(nullable: false),
@@ -480,9 +544,9 @@ namespace Persistence.Migrations
                 {
                     StudentId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     AdmissionNumber = table.Column<int>(nullable: false),
                     HasLeft = table.Column<bool>(nullable: false),
@@ -512,9 +576,9 @@ namespace Persistence.Migrations
                 {
                     TeacherId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Salary = table.Column<int>(nullable: false),
                     HasLeft = table.Column<bool>(nullable: false),
@@ -539,27 +603,87 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Expanses",
+                name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    ExpanseId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
-                    DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
-                    DateTimeModified = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<string>(maxLength: 256, nullable: false),
-                    Amount = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Expanses", x => x.ExpanseId);
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Expanses_User_UserId",
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "UserId",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -569,9 +693,9 @@ namespace Persistence.Migrations
                 {
                     BatchFeeTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
                     LateFee = table.Column<int>(nullable: false),
@@ -602,9 +726,9 @@ namespace Persistence.Migrations
                 {
                     ExamTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     BatchId = table.Column<int>(nullable: false)
@@ -626,9 +750,9 @@ namespace Persistence.Migrations
                 {
                     GroupId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     BatchId = table.Column<int>(nullable: false)
@@ -650,9 +774,9 @@ namespace Persistence.Migrations
                 {
                     ExamGradeTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     GradeCalculationMethod = table.Column<int>(nullable: false),
@@ -681,9 +805,9 @@ namespace Persistence.Migrations
                 {
                     GuardianFieldId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Value = table.Column<string>(maxLength: 100, nullable: false),
                     FieldId = table.Column<int>(nullable: false),
@@ -712,9 +836,9 @@ namespace Persistence.Migrations
                 {
                     StaffAttendanceTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     IsScheduled = table.Column<bool>(nullable: false),
@@ -750,9 +874,9 @@ namespace Persistence.Migrations
                 {
                     DiscountId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
                     FeeTypeId = table.Column<int>(nullable: false),
@@ -781,9 +905,9 @@ namespace Persistence.Migrations
                 {
                     StudentId = table.Column<int>(nullable: false),
                     BatchId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -807,9 +931,9 @@ namespace Persistence.Migrations
                 {
                     StudentFieldId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Value = table.Column<string>(maxLength: 100, nullable: true),
                     FieldId = table.Column<int>(nullable: false),
@@ -838,9 +962,9 @@ namespace Persistence.Migrations
                 {
                     GuardianId = table.Column<int>(nullable: false),
                     StudentId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -865,9 +989,9 @@ namespace Persistence.Migrations
                 {
                     PhoneId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Number = table.Column<string>(maxLength: 20, nullable: false),
                     IsSmsEnabled = table.Column<bool>(nullable: false),
@@ -911,9 +1035,9 @@ namespace Persistence.Migrations
                 {
                     TeacherAttendanceTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     IsScheduled = table.Column<bool>(nullable: false),
@@ -949,9 +1073,9 @@ namespace Persistence.Migrations
                 {
                     TeacherFieldId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Value = table.Column<string>(maxLength: 100, nullable: false),
                     FieldId = table.Column<int>(nullable: false),
@@ -987,9 +1111,9 @@ namespace Persistence.Migrations
                 {
                     FeeRecordId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Month = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: false),
@@ -1021,9 +1145,9 @@ namespace Persistence.Migrations
                 {
                     SubgroupId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     GroupId = table.Column<int>(nullable: false)
@@ -1044,9 +1168,9 @@ namespace Persistence.Migrations
                 {
                     ExamGradeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     MinValue = table.Column<int>(nullable: false),
@@ -1070,9 +1194,9 @@ namespace Persistence.Migrations
                 {
                     ExamGroupId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     BatchId = table.Column<int>(nullable: false),
@@ -1101,9 +1225,9 @@ namespace Persistence.Migrations
                 {
                     FeeCollectionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     ReceivedAmount = table.Column<int>(nullable: false),
                     CollectedAmount = table.Column<int>(nullable: false),
@@ -1135,9 +1259,9 @@ namespace Persistence.Migrations
                 {
                     StudentAttendanceTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     IsScheduled = table.Column<bool>(nullable: false),
@@ -1173,9 +1297,9 @@ namespace Persistence.Migrations
                 {
                     StudentId = table.Column<int>(nullable: false),
                     SubgroupId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -1201,9 +1325,9 @@ namespace Persistence.Migrations
                     BatchId = table.Column<int>(nullable: false),
                     SubgroupId = table.Column<int>(nullable: false),
                     CourseId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -1239,9 +1363,9 @@ namespace Persistence.Migrations
                 {
                     ExamId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     TotalMarks = table.Column<int>(nullable: false),
                     PassingMarks = table.Column<int>(nullable: false),
@@ -1286,9 +1410,9 @@ namespace Persistence.Migrations
                 {
                     ExamRecordId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateTimeCreated = table.Column<DateTime>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
                     DateTimeModified = table.Column<DateTime>(nullable: true),
                     MarksObtained = table.Column<int>(nullable: false),
                     HasAttended = table.Column<bool>(nullable: false),
@@ -1311,6 +1435,60 @@ namespace Persistence.Migrations
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_BranchId",
+                table: "AspNetUsers",
+                column: "BranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_PhotoId",
+                table: "AspNetUsers",
+                column: "PhotoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserTypeId",
+                table: "AspNetUsers",
+                column: "UserTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Batches_ClassId",
@@ -1406,11 +1584,6 @@ namespace Persistence.Migrations
                 name: "IX_ExamTypes_BatchId",
                 table: "ExamTypes",
                 column: "BatchId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Expanses_UserId",
-                table: "Expanses",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExpanseTypes_BranchId",
@@ -1636,25 +1809,25 @@ namespace Persistence.Migrations
                 name: "IX_Teachers_TeacherRankId",
                 table: "Teachers",
                 column: "TeacherRankId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_BranchId",
-                table: "User",
-                column: "BranchId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_PhotoId",
-                table: "User",
-                column: "PhotoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_UserTypeId",
-                table: "User",
-                column: "UserTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
             migrationBuilder.DropTable(
                 name: "Discount");
 
@@ -1716,10 +1889,13 @@ namespace Persistence.Migrations
                 name: "TeacherFields");
 
             migrationBuilder.DropTable(
-                name: "Exams");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Exams");
 
             migrationBuilder.DropTable(
                 name: "FeeRecords");
@@ -1740,13 +1916,13 @@ namespace Persistence.Migrations
                 name: "Teachers");
 
             migrationBuilder.DropTable(
+                name: "UserTypes");
+
+            migrationBuilder.DropTable(
                 name: "ExamGroup");
 
             migrationBuilder.DropTable(
                 name: "ExamTypes");
-
-            migrationBuilder.DropTable(
-                name: "UserType");
 
             migrationBuilder.DropTable(
                 name: "BatchFeeTypes");

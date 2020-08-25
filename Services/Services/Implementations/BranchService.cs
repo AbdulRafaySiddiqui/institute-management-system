@@ -1,6 +1,7 @@
 using Domain;
+using Persistences;
 
-namespace Persistence
+namespace Services
 {
     public class BranchService : BaseService<Branch>, IBranchService
     {

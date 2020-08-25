@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+using Domain;
 
-namespace Domain
+namespace Services
 {
-    public class User : IdentityUser
+    public class UserDto
     {
-        [MaxLength(100)]
+        public string UserName { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string Token { get; set; }
 
         public int? PhotoId { get; set; }
         public virtual Photo Photo { get; set; }

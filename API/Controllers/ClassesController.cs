@@ -1,7 +1,7 @@
+using Domain;
+using Services;
 using System;
 using System.Linq.Expressions;
-using Domain;
-using Persistence;
 
 namespace API
 {

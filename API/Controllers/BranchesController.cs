@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Domain;
+﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Persistence;
+using Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API
 {

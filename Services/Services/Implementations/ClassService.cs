@@ -1,7 +1,8 @@
 using Domain;
+using Persistences;
 using System.Linq;
 
-namespace Persistence
+namespace Services
 {
     public class ClassService : BaseService<Class>, IClassService
     {

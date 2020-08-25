@@ -1,12 +1,13 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using Persistences;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Persistence
+namespace Services
 {
     public class BaseService<T> : IBaseService<T> where T : BaseModel
     {

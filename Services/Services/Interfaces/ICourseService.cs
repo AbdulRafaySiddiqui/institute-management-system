@@ -1,6 +1,6 @@
 using Domain;
 
-namespace Persistence
+namespace Services
 {
     public interface ICourseService : IBaseService<Course>
     {
