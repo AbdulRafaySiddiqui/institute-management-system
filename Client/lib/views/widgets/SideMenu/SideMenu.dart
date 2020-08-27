@@ -1,3 +1,4 @@
+import 'package:Client/routing/RouteNames.dart';
 import 'package:Client/viewmodels/SideMenuViewModel.dart';
 import 'package:Client/views/widgets/SideMenu/SideMenuItem.dart';
 import 'package:flutter/material.dart';
@@ -131,23 +132,29 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SideMenuItemViewModel("Dashboard", Icons.dashboard),
-                SideMenuItemViewModel("Home", Icons.home),
-                SideMenuItemViewModel("Student", Icons.supervised_user_circle),
-                SideMenuItemViewModel("Teacher", Icons.admin_panel_settings),
-                SideMenuItemViewModel("Exam", Icons.ac_unit),
-                SideMenuItemViewModel("Courses", Icons.add_road_rounded),
+                SideMenuItemViewModel(
+                    "Dashboard", Icons.dashboard, branchRoute),
+                SideMenuItemViewModel("Home", Icons.home, classRoute),
+                SideMenuItemViewModel(
+                    "Student", Icons.supervised_user_circle, classRoute),
+                SideMenuItemViewModel(
+                    "Teacher", Icons.admin_panel_settings, classRoute),
+                SideMenuItemViewModel("Exam", Icons.ac_unit, classRoute),
+                SideMenuItemViewModel(
+                    "Courses", Icons.add_road_rounded, classRoute),
               ].asMap().entries.map((e) {
                 return SideMenuItem(
-                    title: e.value.title,
-                    icon: e.value.icon,
-                    isCollapsed: isCollapsed,
-                    isSelected: e.key == selectedIndex,
-                    index: e.key,
-                    duration: animationDuration,
-                    selectItem: selectItem,
-                    fadeAnimation: _fadeAnimation,
-                    slideAnimation: _slideAnimation);
+                  title: e.value.title,
+                  icon: e.value.icon,
+                  isCollapsed: isCollapsed,
+                  isSelected: e.key == selectedIndex,
+                  index: e.key,
+                  duration: animationDuration,
+                  selectItem: selectItem,
+                  fadeAnimation: _fadeAnimation,
+                  slideAnimation: _slideAnimation,
+                  pageRoute: e.value.pageRoute,
+                );
               }).toList()),
           SizedBox(height: 30)
         ],

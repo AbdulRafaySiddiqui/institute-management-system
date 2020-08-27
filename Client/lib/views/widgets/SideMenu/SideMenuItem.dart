@@ -1,3 +1,5 @@
+import 'package:Client/locator/locator.dart';
+import 'package:Client/service/NavigationService/NavigationService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -11,6 +13,7 @@ class SideMenuItem extends StatelessWidget {
   final Function selectItem;
   final Animation fadeAnimation;
   final Animation slideAnimation;
+  final String pageRoute;
 
   const SideMenuItem(
       {Key key,
@@ -22,13 +25,17 @@ class SideMenuItem extends StatelessWidget {
       this.index,
       this.selectItem,
       this.slideAnimation,
-      this.fadeAnimation})
+      this.fadeAnimation,
+      this.pageRoute})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {selectItem(index)},
+      onTap: () {
+        selectItem(index);
+        locator<NavigationService>().navigateTo(pageRoute);
+      },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(
