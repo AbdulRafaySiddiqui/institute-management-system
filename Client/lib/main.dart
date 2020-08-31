@@ -1,3 +1,4 @@
+import 'package:Client/constants/colors.dart';
 import 'package:Client/locator/locator.dart';
 import 'package:Client/routing/RouteNames.dart';
 import 'package:Client/routing/Router.dart';
@@ -16,9 +17,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'IMS',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: Theme.of(context).copyWith(
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        brightness: Brightness.light,
+        primaryColor: Palette.primaryColor,
+        accentColor: Palette.accentColor,
+        scaffoldBackgroundColor: Palette.scaffoldBackgroundColor,
+        buttonTheme: Theme.of(context).buttonTheme.copyWith(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            buttonColor: Palette.primaryColor,
+            textTheme: ButtonTextTheme.primary),
+        cardTheme: Theme.of(context)
+            .cardTheme
+            .copyWith(elevation: 10.0, margin: EdgeInsets.all(20)),
       ),
       builder: (context, child) => Layout(child: child),
       navigatorKey: locator<NavigationService>().navigatorKey,
