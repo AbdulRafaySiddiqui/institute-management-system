@@ -40,6 +40,13 @@ namespace API
                 s.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                }));
+
             var buidler = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(buidler.UserType, buidler.Services);
             identityBuilder.AddEntityFrameworkStores<ImsContext>();
@@ -73,6 +80,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+    
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
 
