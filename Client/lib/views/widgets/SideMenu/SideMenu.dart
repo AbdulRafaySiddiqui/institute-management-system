@@ -82,7 +82,10 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Colors.purple, Colors.indigo[900]],
+          colors: [
+            Theme.of(context).accentColor,
+            Theme.of(context).primaryColor
+          ],
         ),
         boxShadow: [
           BoxShadow(color: Colors.purple, blurRadius: 16),
