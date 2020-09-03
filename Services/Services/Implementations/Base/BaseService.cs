@@ -1,10 +1,12 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistences;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Services
@@ -12,11 +14,13 @@ namespace Services
     public class BaseService<T> : IBaseService<T> where T : BaseModel
     {
         protected ImsContext _context = null;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         protected DbSet<T> _entity = null;
 
-        public BaseService(ImsContext context)
+        public BaseService(ImsContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
             _entity = _context.Set<T>();
         }
 
@@ -55,6 +59,9 @@ namespace Services
                 throw new ArgumentNullException(nameof(obj));
             }
             obj.DateTimeCreated = DateTime.Now;
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.CreatedBy = userId;
+
             await _entity.AddAsync(obj);
             return obj;
         }
@@ -62,8 +69,9 @@ namespace Services
         public void Update(T obj)
         {
             obj.DateTimeModified = DateTime.Now;
-            _entity.Attach(obj);
-            _context.Entry(obj).State = EntityState.Modified;
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.ModifiedBy = userId;
+            _entity.Update(obj);
         }
 
         public void Delete(int id)
