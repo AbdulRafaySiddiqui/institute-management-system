@@ -22,7 +22,7 @@ namespace Infrastructure
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id)
             };
 
             // generate signing credentials
