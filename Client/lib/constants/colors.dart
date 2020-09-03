@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Palette {
-  static get scaffoldBackgroundColor => Colors.indigo[50];
-  static get primaryColor => Colors.indigo[900];
-  static get accentColor => Colors.purple;
+  static Color get scaffoldBackgroundColor => Colors.indigo[50];
+  static Color get primaryColor => Colors.indigo[900];
+  static Color get accentColor => Colors.purple;
 }
