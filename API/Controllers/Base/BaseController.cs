@@ -6,22 +6,23 @@ using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class BaseController<T, Service> : ControllerBase
+    public class BaseController<T, TService> : ControllerBase
     where T : BaseModel
-    where Service : IBaseService<T>
+    where TService : IBaseService<T>
     {
-        protected readonly Service _service;
+        protected readonly TService _service;
         protected readonly Expression<Func<T, int>> _filterProp;
         protected readonly Expression<Func<T, object>>[] _includeFuncs;
 
         public BaseController(
-            Service service,
+            TService service,
             Expression<Func<T, int>> filterProp = null,
             Expression<Func<T, object>>[] includeFuncs = null
         )
@@ -62,6 +63,24 @@ namespace API
                 await _service.SaveAsync();
                 var _id = _service.GetKey(_entity);
                 return CreatedAtAction(nameof(GetById), new { id = _id }, _entity);
+            }
+            return ValidationProblem(ModelState);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<T>> Update([FromBody] T entity)
+        {
+            var id = _service.GetKey(entity);
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                _service.Update(entity);
+                await _service.SaveAsync();
+                var _updatedEntity = await _service.GetByIdAsync(id);
+                return Ok(_updatedEntity);
             }
             return ValidationProblem(ModelState);
         }
