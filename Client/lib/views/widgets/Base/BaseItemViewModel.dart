@@ -1,12 +1,17 @@
+import 'package:Client/locator/locator.dart';
 import 'package:Client/models/BaseModel.dart';
+import 'package:Client/service/api/BaseApi.dart';
 import 'package:flutter/material.dart';
 
-abstract class BaseItemViewModel<T extends BaseModel> with ChangeNotifier {
-  Function add;
-  Function update;
-  Function delete;
-  Function fetch;
+abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
+    with ChangeNotifier {
+  BaseItemViewModel() {
+    fetchAllItems();
+  }
 
+  TApi api = locator<TApi>();
+
+  int selectedIndex;
   T selectedItem;
   List<T> itemsList = [];
   List<bool> selectedItems;
@@ -21,6 +26,7 @@ abstract class BaseItemViewModel<T extends BaseModel> with ChangeNotifier {
   void selectItem(int index) {
     if (isAdding || isUpdating || isDeleting) return;
 
+    selectedIndex = index;
     selectedItem = itemsList[index];
     selectedItems = List<bool>.generate(itemsList.length, (i) => index == i);
     notifyListeners();
@@ -30,7 +36,7 @@ abstract class BaseItemViewModel<T extends BaseModel> with ChangeNotifier {
     isFetchingData = true;
     notifyListeners();
 
-    var response = await fetch();
+    var response = await api.fetchAll();
     if (response is String)
       error = response;
     else {
@@ -43,14 +49,11 @@ abstract class BaseItemViewModel<T extends BaseModel> with ChangeNotifier {
   }
 
   Future<void> addItem(Map<String, dynamic> map) async {
-    if (map == null) {
-      print('BRanch is NULL');
-      return;
-    }
     isAdding = true;
     notifyListeners();
+
     var value = fromJson(map);
-    var response = await add(value);
+    var response = await api.add(value);
     if (response is String)
       error = response;
     else {
@@ -63,15 +66,18 @@ abstract class BaseItemViewModel<T extends BaseModel> with ChangeNotifier {
   }
 
   Future<void> updateItem(Map<String, dynamic> map) async {
+    selectedItem = fromJson(map);
+
     isUpdating = true;
     notifyListeners();
     var value = fromJson(map);
-    var response = await update(value);
+    var response = await api.update(value);
     if (response is String)
       error = response;
     else {
       //this updates the value in list
       selectedItem = response;
+      itemsList[selectedIndex] = response;
       selectedItems.add(false);
     }
 
@@ -80,13 +86,18 @@ abstract class BaseItemViewModel<T extends BaseModel> with ChangeNotifier {
   }
 
   Future<void> deleteItem() async {
-    var response = await delete(selectedItem.id);
+    isDeleting = true;
+    notifyListeners();
+
+    var response = await api.delete(selectedItem.id);
     if (response is String) {
       error = response;
     } else {
       itemsList.remove(selectedItem);
       selectedItem = null;
     }
+
+    isDeleting = false;
     notifyListeners();
   }
 }

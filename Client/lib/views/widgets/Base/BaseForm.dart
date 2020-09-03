@@ -1,9 +1,14 @@
-import 'package:Client/views/widgets/BaseForm/BaseItemViewModel.dart';
+import 'package:Client/models/BaseModel.dart';
+import 'package:Client/service/api/BaseApi.dart';
+import 'package:Client/views/widgets/Base/BaseItemViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
-class BaseForm<T extends BaseItemViewModel> extends StatelessWidget {
+class BaseForm<
+    T extends BaseItemViewModel<TModel, TApi>,
+    TModel extends BaseModel,
+    TApi extends BaseApi<TModel>> extends StatelessWidget {
   BaseForm({
     Key key,
     @required this.itemName,
@@ -63,13 +68,12 @@ class BaseForm<T extends BaseItemViewModel> extends StatelessWidget {
                           _form.currentState.save();
 
                           Map<String, dynamic> map = _form.currentState.value;
-                          print(map);
                           if (isUpdateForm)
                             await value.updateItem(_form.currentState.value);
-                          else
+                          else {
                             await value.addItem(map);
-
-                          _form.currentState.reset();
+                            _form.currentState?.reset();
+                          }
                         },
                       ),
                       if (isUpdateForm) ...{
@@ -80,7 +84,6 @@ class BaseForm<T extends BaseItemViewModel> extends StatelessWidget {
                           color: Colors.red,
                           onPressed: () async {
                             await value.deleteItem();
-                            _form.currentState.reset();
                           },
                         ),
                       },
