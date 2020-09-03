@@ -1,4 +1,5 @@
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace API
             _service = service;
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register([FromBody] UserLoginModel userLoginModel)
         {
