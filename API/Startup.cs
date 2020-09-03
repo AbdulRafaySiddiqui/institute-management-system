@@ -47,6 +47,7 @@ namespace API
                         .AllowAnyHeader();
                 }));
 
+
             var buidler = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(buidler.UserType, buidler.Services);
             identityBuilder.AddEntityFrameworkStores<ImsContext>();
@@ -66,6 +67,7 @@ namespace API
                     };
                 });
             services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddHttpContextAccessor();
             services.UseModelServices();
         }
 
@@ -80,7 +82,7 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-    
+
             app.UseCors("MyPolicy");
 
             app.UseAuthentication();
