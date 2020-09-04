@@ -46,7 +46,7 @@ class BaseForm<
               Divider(),
               if (isUpdateForm && initialValue == null)
                 Center(
-                  child: Text("Select a branch to edit."),
+                  child: Text("Select $itemName to edit."),
                 )
               else ...{
                 //Add the input widgets
