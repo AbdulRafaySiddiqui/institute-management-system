@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 class BaseListCard extends StatelessWidget {
-  BaseListCard({Key key, @required this.columns, @required this.rows})
+  BaseListCard(
+      {Key key,
+      @required this.columns,
+      @required this.rows,
+      this.filters,
+      this.isLoading = false})
       : super(key: key);
+  final bool isLoading;
   final List<DataColumn> columns;
   final List<DataRow> rows;
-  final scrollController = ScrollController();
+  final List<DropdownButton> filters;
+  var scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +37,31 @@ class BaseListCard extends StatelessWidget {
       elevation: 5.0,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Row(
+        child: Column(
           children: [
-            Scrollbar(
-              isAlwaysShown: true,
-              controller: scrollController,
-              child: SingleChildScrollView(
-                controller: scrollController,
-                scrollDirection: Axis.vertical,
-                child: DataTable(
-                  showCheckboxColumn: false,
-                  columns: columnList,
-                  rows: rowList,
-                ),
+            if (filters != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: filters,
               ),
-            ),
+            isLoading
+                ? CircularProgressIndicator()
+                : Align(
+                    alignment: Alignment.centerLeft,
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      controller: scrollController,
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        scrollDirection: Axis.vertical,
+                        child: DataTable(
+                          showCheckboxColumn: false,
+                          columns: columnList,
+                          rows: rowList,
+                        ),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
