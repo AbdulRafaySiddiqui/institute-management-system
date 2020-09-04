@@ -1,6 +1,7 @@
 import 'package:Client/models/BranchModel.dart';
 import 'package:Client/service/api/BranchApi.dart';
 import 'package:Client/viewmodels/BranchViewModel.dart';
+import 'package:Client/views/pages/BaseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';
 import 'package:Client/views/widgets/Base/BaseListCard.dart';
 import 'package:flutter/material.dart';
@@ -18,37 +19,24 @@ class _BranchViewState extends State<BranchView> {
     return ChangeNotifierProvider<BranchViewModel>(
       create: (context) => BranchViewModel(),
       builder: (context, child) => Consumer<BranchViewModel>(
-        builder: (context, viewModel, child) => Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-                flex: 2,
-                child: Column(
-                  children: [
-                    _form(),
-                    _form(isUpdateForm: true, context: context),
-                  ],
-                )),
-            Expanded(
-              flex: 5,
-              child: viewModel.isFetchingData
-                  ? Center(child: CircularProgressIndicator())
-                  : BaseListCard(
-                      columns: [
-                        DataColumn(label: Text('Name')),
-                      ],
-                      rows: List.generate(
-                        viewModel.itemsList.length,
-                        (i) => DataRow(
-                            onSelectChanged: (_) => viewModel.selectItem(i),
-                            selected: viewModel.selectedItems[i],
-                            cells: [
-                              DataCell(Text(viewModel.itemsList[i].name)),
-                            ]),
-                      ).toList(),
-                    ),
-            )
-          ],
+        builder: (context, viewModel, child) => BaseView(
+          isLoading: viewModel.isLoading,
+          addForm: _form(context: context),
+          updateForm: _form(isUpdateForm: true, context: context),
+          listCard: BaseListCard(
+            columns: [
+              DataColumn(label: Text('Name')),
+            ],
+            rows: List.generate(
+              viewModel.itemsList.length,
+              (i) => DataRow(
+                  onSelectChanged: (_) => viewModel.selectItem(i),
+                  selected: viewModel.selectedItems[i],
+                  cells: [
+                    DataCell(Text(viewModel.itemsList[i].name)),
+                  ]),
+            ).toList(),
+          ),
         ),
       ),
     );

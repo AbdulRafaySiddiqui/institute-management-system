@@ -2,6 +2,7 @@ import 'package:Client/localization/EntityNames.dart';
 import 'package:Client/models/ClassModel.dart';
 import 'package:Client/service/api/ClassApi.dart';
 import 'package:Client/viewmodels/ClassViewModel.dart';
+import 'package:Client/views/pages/BaseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';
 import 'package:Client/views/widgets/Base/BaseListCard.dart';
 import 'package:flutter/material.dart';
@@ -19,52 +20,40 @@ class _ClassViewState extends State<ClassView> {
     return ChangeNotifierProvider<ClassViewModel>(
       create: (context) => ClassViewModel(),
       builder: (context, child) => Consumer<ClassViewModel>(
-        builder: (context, viewModel, child) => Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-                flex: 2,
-                child: Column(
-                  children: [
-                    _form(context: context),
-                    _form(isUpdateForm: true, context: context),
+          builder: (context, viewModel, child) => BaseView(
+                isLoading: viewModel.isLoading,
+                addForm: _form(context: context),
+                updateForm: _form(isUpdateForm: true, context: context),
+                listCard: BaseListCard(
+                  isLoading: viewModel.isFetchingData,
+                  filters: [
+                    DropdownButton(
+                        hint: Text(EntityNames.branchName),
+                        value: viewModel.selectedBranch,
+                        items: viewModel.branchList
+                            ?.map(
+                              (e) => DropdownMenuItem(
+                                child: Text(e.name),
+                                value: e,
+                              ),
+                            )
+                            ?.toList(),
+                        onChanged: (value) => viewModel.selectBranch(value))
                   ],
-                )),
-            Expanded(
-              flex: 5,
-              child: BaseListCard(
-                isLoading: viewModel.isFetchingData,
-                filters: [
-                  DropdownButton(
-                      hint: Text(EntityNames.branchName),
-                      value: viewModel.selectedBranch,
-                      items: viewModel.branchList
-                          ?.map(
-                            (e) => DropdownMenuItem(
-                              child: Text(e.name),
-                              value: e,
-                            ),
-                          )
-                          ?.toList(),
-                      onChanged: (value) => viewModel.selectBranch(value))
-                ],
-                columns: [
-                  DataColumn(label: Text('Name')),
-                ],
-                rows: List.generate(
-                  viewModel.itemsList.length,
-                  (i) => DataRow(
-                      onSelectChanged: (_) => viewModel.selectItem(i),
-                      selected: viewModel.selectedItems[i],
-                      cells: [
-                        DataCell(Text(viewModel.itemsList[i].name)),
-                      ]),
-                ).toList(),
-              ),
-            )
-          ],
-        ),
-      ),
+                  columns: [
+                    DataColumn(label: Text('Name')),
+                  ],
+                  rows: List.generate(
+                    viewModel.itemsList.length,
+                    (i) => DataRow(
+                        onSelectChanged: (_) => viewModel.selectItem(i),
+                        selected: viewModel.selectedItems[i],
+                        cells: [
+                          DataCell(Text(viewModel.itemsList[i].name)),
+                        ]),
+                  ).toList(),
+                ),
+              )),
     );
   }
 }
