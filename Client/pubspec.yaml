@@ -33,7 +33,7 @@ dependencies:
   json_annotation: ^3.0.1
   http: ^0.12.2
   draggable_scrollbar: ^0.0.4
-  flutter_form_builder: ^3.14.0-alpha.1
+  flutter_form_builder: ^3.14.0-alpha.2
   intl: ^0.16.1
 
 dev_dependencies:
