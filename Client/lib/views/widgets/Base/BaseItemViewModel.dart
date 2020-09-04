@@ -10,8 +10,8 @@ abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
     init();
   }
 
-  void init() {
-    fetchAllItems();
+  void init() async {
+    await fetchAllItems(notify: false);
 
     isLoading = false;
     notifyListeners();
@@ -42,9 +42,11 @@ abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
     notifyListeners();
   }
 
-  Future<void> fetchAllItems({int id}) async {
-    isFetchingData = true;
-    notifyListeners();
+  Future<void> fetchAllItems({int id, bool notify = true}) async {
+    if (notify) {
+      isFetchingData = true;
+      notifyListeners();
+    }
 
     var response = await api.fetchAll(id: id);
     if (response is String)
@@ -54,8 +56,10 @@ abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
       selectedItems = List<bool>.generate(_itemsList.length, (i) => false);
     }
 
-    isFetchingData = false;
-    notifyListeners();
+    if (notify) {
+      isFetchingData = false;
+      notifyListeners();
+    }
   }
 
   Future<void> addItem(Map<String, dynamic> map) async {

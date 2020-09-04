@@ -11,7 +11,7 @@ class ClassViewModel extends BaseItemViewModel<ClassModel, ClassApi> {
     _branchApi = locator<BranchApi>();
     await fetchBranches();
     if (branchList != null) {
-      selectBranch(branchList[0]);
+      selectBranch(branchList[0], notify: false);
     }
     isLoading = false;
     notifyListeners();
@@ -29,9 +29,9 @@ class ClassViewModel extends BaseItemViewModel<ClassModel, ClassApi> {
   List<BranchModel> branchList;
   BranchModel selectedBranch;
 
-  selectBranch(BranchModel model) async {
+  selectBranch(BranchModel model, {bool notify = true}) async {
     selectedBranch = model;
-    fetchAllItems(id: model.id);
+    await fetchAllItems(id: model.id, notify: notify);
     notifyListeners();
   }
 
