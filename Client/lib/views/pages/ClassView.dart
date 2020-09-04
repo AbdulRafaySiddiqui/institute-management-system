@@ -26,28 +26,41 @@ class _ClassViewState extends State<ClassView> {
                 flex: 2,
                 child: Column(
                   children: [
-                    _form(),
+                    _form(context: context),
                     _form(isUpdateForm: true, context: context),
                   ],
                 )),
             Expanded(
               flex: 5,
-              child: viewModel.isFetchingData
-                  ? Center(child: CircularProgressIndicator())
-                  : BaseListCard(
-                      columns: [
-                        DataColumn(label: Text('Name')),
-                      ],
-                      rows: List.generate(
-                        viewModel.itemsList.length,
-                        (i) => DataRow(
-                            onSelectChanged: (_) => viewModel.selectItem(i),
-                            selected: viewModel.selectedItems[i],
-                            cells: [
-                              DataCell(Text(viewModel.itemsList[i].name)),
-                            ]),
-                      ).toList(),
-                    ),
+              child: BaseListCard(
+                isLoading: viewModel.isFetchingData,
+                filters: [
+                  DropdownButton(
+                      hint: Text(EntityNames.branchName),
+                      value: viewModel.selectedBranch,
+                      items: viewModel.branchList
+                          ?.map(
+                            (e) => DropdownMenuItem(
+                              child: Text(e.name),
+                              value: e,
+                            ),
+                          )
+                          ?.toList(),
+                      onChanged: (value) => viewModel.selectBranch(value))
+                ],
+                columns: [
+                  DataColumn(label: Text('Name')),
+                ],
+                rows: List.generate(
+                  viewModel.itemsList.length,
+                  (i) => DataRow(
+                      onSelectChanged: (_) => viewModel.selectItem(i),
+                      selected: viewModel.selectedItems[i],
+                      cells: [
+                        DataCell(Text(viewModel.itemsList[i].name)),
+                      ]),
+                ).toList(),
+              ),
             )
           ],
         ),
@@ -56,8 +69,8 @@ class _ClassViewState extends State<ClassView> {
   }
 }
 
-_form({var isUpdateForm = false, var context}) {
-  var viewModel = Provider.of<ClassViewModel>(context);
+_form({bool isUpdateForm = false, var context}) {
+  ClassViewModel viewModel = Provider.of<ClassViewModel>(context);
   return BaseForm<ClassViewModel, ClassModel, ClassApi>(
     inputWidgets: [
       FormBuilderTextField(
@@ -66,21 +79,18 @@ _form({var isUpdateForm = false, var context}) {
         validators: [FormBuilderValidators.required()],
       ),
       FormBuilderDropdown(
-        attribute: "classId",
+        attribute: "branchId",
         decoration: InputDecoration(labelText: EntityNames.branchName),
-        // initialValue: 'Male',
-        hint: Text('Select ${EntityNames.branchName}'),
         validators: [FormBuilderValidators.required()],
         items: viewModel.branchList
-            .map((item) =>
+            ?.map((item) =>
                 DropdownMenuItem(value: item.id, child: Text(item.name)))
-            .toList(),
+            ?.toList(),
       ),
     ],
-    itemName: EntityNames.branchName,
+    itemName: EntityNames.className,
     isUpdateForm: isUpdateForm,
-    initialValue: isUpdateForm
-        ? viewModel.selectedItem?.toJson()
-        : ClassModel().toJson(),
+    initialValue:
+        isUpdateForm ? viewModel.selectedItem?.toJson() : ClassModel().toJson(),
   );
 }
