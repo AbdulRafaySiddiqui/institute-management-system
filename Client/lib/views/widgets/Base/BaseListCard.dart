@@ -12,7 +12,7 @@ class BaseListCard extends StatelessWidget {
   final List<DataColumn> columns;
   final List<DataRow> rows;
   final List<DropdownButton> filters;
-  var scrollController = ScrollController();
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,7 @@ class BaseListCard extends StatelessWidget {
           color: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
             // All rows will have the same selected color.
-            if (states.contains(MaterialState.selected))
-              return Theme.of(context).primaryColor.withOpacity(0.2);
+            if (states.contains(MaterialState.selected)) return Colors.grey;
             // Even rows will have a grey color.
             if (i % 2 == 0) return Colors.grey.withOpacity(0.1);
             return null; // Use default value for other states and odd rows.
@@ -45,7 +44,7 @@ class BaseListCard extends StatelessWidget {
                 children: filters,
               ),
             isLoading
-                ? CircularProgressIndicator()
+                ? Center(child: CircularProgressIndicator())
                 : Align(
                     alignment: Alignment.centerLeft,
                     child: Scrollbar(
@@ -55,6 +54,12 @@ class BaseListCard extends StatelessWidget {
                         controller: scrollController,
                         scrollDirection: Axis.vertical,
                         child: DataTable(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
+                            ),
+                          ),
                           showCheckboxColumn: false,
                           columns: columnList,
                           rows: rowList,
