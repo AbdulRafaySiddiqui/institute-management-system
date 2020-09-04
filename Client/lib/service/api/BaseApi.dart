@@ -25,7 +25,7 @@ abstract class BaseApi<T extends BaseModel> {
     if (_useFilteredFetchOnly && id == null && id == 0)
       throw Exception("Id cannot be null or empty.");
     try {
-      var url = _useFilteredFetchOnly ? "$_url/filtered/$id" : _url;
+      var url = _useFilteredFetchOnly ? "$_url/filter/$id" : _url;
       var response = await http.get(url, headers: _header);
 
       if (response.statusCode == 200) {
