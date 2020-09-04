@@ -6,14 +6,24 @@ import 'package:flutter/material.dart';
 abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
     with ChangeNotifier {
   BaseItemViewModel() {
-    fetchAllItems();
+    api = locator<TApi>();
+    init();
   }
 
-  TApi api = locator<TApi>();
+  void init() {
+    fetchAllItems();
 
+    isLoading = false;
+    notifyListeners();
+  }
+
+  TApi api;
+
+  bool isLoading = true;
   int selectedIndex;
   T selectedItem;
-  List<T> itemsList = [];
+  List<T> _itemsList = [];
+  List<T> get itemsList => [..._itemsList];
   List<bool> selectedItems;
   bool isAdding = false;
   bool isUpdating = false;
@@ -27,21 +37,21 @@ abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
     if (isAdding || isUpdating || isDeleting) return;
 
     selectedIndex = index;
-    selectedItem = itemsList[index];
-    selectedItems = List<bool>.generate(itemsList.length, (i) => index == i);
+    selectedItem = _itemsList[index];
+    selectedItems = List<bool>.generate(_itemsList.length, (i) => index == i);
     notifyListeners();
   }
 
-  Future<void> fetchAllItems() async {
+  Future<void> fetchAllItems({int id}) async {
     isFetchingData = true;
     notifyListeners();
 
-    var response = await api.fetchAll();
+    var response = await api.fetchAll(id: id);
     if (response is String)
       error = response;
     else {
-      itemsList = response;
-      selectedItems = List<bool>.generate(itemsList.length, (i) => false);
+      _itemsList = response;
+      selectedItems = List<bool>.generate(_itemsList.length, (i) => false);
     }
 
     isFetchingData = false;
@@ -57,7 +67,7 @@ abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
     if (response is String)
       error = response;
     else {
-      itemsList.add(response);
+      _itemsList.add(response);
       selectedItems.add(false);
     }
 
@@ -75,9 +85,8 @@ abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
     if (response is String)
       error = response;
     else {
-      //this updates the value in list
       selectedItem = response;
-      itemsList[selectedIndex] = response;
+      _itemsList[selectedIndex] = response;
       selectedItems.add(false);
     }
 
@@ -93,7 +102,7 @@ abstract class BaseItemViewModel<T extends BaseModel, TApi extends BaseApi<T>>
     if (response is String) {
       error = response;
     } else {
-      itemsList.remove(selectedItem);
+      _itemsList.remove(selectedItem);
       selectedItem = null;
     }
 
