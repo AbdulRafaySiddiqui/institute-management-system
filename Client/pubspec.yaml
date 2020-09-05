@@ -1,5 +1,5 @@
 name: Client
-description: A new Flutter project.
+description: An Institute Management System.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -35,6 +35,8 @@ dependencies:
   draggable_scrollbar: ^0.0.4
   flutter_form_builder: ^3.14.0-alpha.2
   intl: ^0.16.1
+  get: ^3.8.0
+
 
 dev_dependencies:
   flutter_test:

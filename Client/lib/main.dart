@@ -3,7 +3,7 @@ import 'package:Client/locator/locator.dart';
 import 'package:Client/routing/RouteNames.dart';
 import 'package:Client/routing/Router.dart';
 import 'package:Client/service/NavigationService/NavigationService.dart';
-import 'package:Client/views/pages/Layout/Layout.dart';
+import 'package:Client/views/Layout/Layout.dart';
 import 'package:flutter/material.dart';
 
 void main() {

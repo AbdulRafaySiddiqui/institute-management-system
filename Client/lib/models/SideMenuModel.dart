@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class SideMenuItemViewModel {
+class SideMenuItemModel {
   final String title;
   final IconData icon;
   final String pageRoute;
 
-  SideMenuItemViewModel(this.title, this.icon, this.pageRoute);
+  SideMenuItemModel(this.title, this.icon, this.pageRoute);
 }

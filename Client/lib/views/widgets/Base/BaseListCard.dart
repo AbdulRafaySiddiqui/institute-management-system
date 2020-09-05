@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BaseListCard extends StatelessWidget {
   BaseListCard(
@@ -11,7 +12,7 @@ class BaseListCard extends StatelessWidget {
   final bool isLoading;
   final List<DataColumn> columns;
   final List<DataRow> rows;
-  final List<DropdownButton> filters;
+  final List<Widget> filters;
   final scrollController = ScrollController();
 
   @override
@@ -47,26 +48,28 @@ class BaseListCard extends StatelessWidget {
                 ? Center(child: CircularProgressIndicator())
                 : Align(
                     alignment: Alignment.centerLeft,
-                    child: Scrollbar(
-                      isAlwaysShown: true,
+                    child:
+                        // Scrollbar(
+                        //   isAlwaysShown: true,
+                        //   controller: scrollController,
+                        //   child:
+                        SingleChildScrollView(
                       controller: scrollController,
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        scrollDirection: Axis.vertical,
-                        child: DataTable(
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
+                      scrollDirection: Axis.vertical,
+                      child: DataTable(
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
                           ),
-                          showCheckboxColumn: false,
-                          columns: columnList,
-                          rows: rowList,
                         ),
+                        showCheckboxColumn: false,
+                        columns: columnList,
+                        rows: rowList,
                       ),
                     ),
                   ),
+            // ),
           ],
         ),
       ),

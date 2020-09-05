@@ -1,14 +1,15 @@
+import 'package:Client/controllers/BaseItemController.dart';
 import 'package:Client/models/BaseModel.dart';
 import 'package:Client/service/api/BaseApi.dart';
-import 'package:Client/views/widgets/Base/BaseItemViewModel.dart';
+import 'package:Client/views/widgets/Buttons/PrimaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 class BaseForm<
-    T extends BaseItemViewModel<TModel, TApi>,
+    T extends BaseItemController<TModel, TApi>,
     TModel extends BaseModel,
-    TApi extends BaseApi<TModel>> extends StatelessWidget {
+    TApi extends BaseApi<TModel>> extends GetWidget<T> {
   BaseForm({
     Key key,
     @required this.itemName,
@@ -52,16 +53,17 @@ class BaseForm<
                 //Add the input widgets
                 ...inputWidgets,
                 SizedBox(height: 20),
-                Consumer<T>(
-                  builder: (context, value, child) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      PrimaryButton(
-                        isBusy: (!isUpdateForm && value.isAdding) ||
-                            (isUpdateForm && value.isUpdating),
-                        isEnabled: (!value.isDeleting && isUpdateForm) ||
-                            !isUpdateForm,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    Obx(
+                      () => PrimaryButton(
+                        isBusy: (!isUpdateForm && controller.isAdding.value) ||
+                            (isUpdateForm && controller.isUpdating.value),
+                        isEnabled:
+                            (!controller.isDeleting.value && isUpdateForm) ||
+                                !isUpdateForm,
                         text: isUpdateForm ? 'Update' : 'Add',
                         onPressed: () async {
                           if (!_form.currentState.validate()) return;
@@ -69,59 +71,35 @@ class BaseForm<
 
                           Map<String, dynamic> map = _form.currentState.value;
                           if (isUpdateForm)
-                            await value.updateItem(_form.currentState.value);
+                            await controller
+                                .updateItem(_form.currentState.value);
                           else {
-                            await value.addItem(map);
+                            await controller.addItem(map);
                             _form.currentState?.reset();
                           }
                         },
                       ),
-                      if (isUpdateForm) ...{
-                        PrimaryButton(
-                          isBusy: value.isDeleting,
-                          isEnabled: !value.isUpdating,
+                    ),
+                    if (isUpdateForm) ...{
+                      Obx(
+                        () => PrimaryButton(
+                          isBusy: controller.isDeleting.value,
+                          isEnabled: !controller.isUpdating.value,
                           text: "Delete",
                           color: Colors.red,
                           onPressed: () async {
-                            await value.deleteItem();
+                            await controller.deleteItem();
                           },
                         ),
-                      },
-                    ],
-                  ),
+                      ),
+                    },
+                  ],
                 ),
               }
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class PrimaryButton extends StatelessWidget {
-  final String text;
-  final bool isBusy;
-  final Function onPressed;
-  final bool isEnabled;
-  final Color color;
-  const PrimaryButton({
-    Key key,
-    this.text,
-    this.onPressed,
-    this.isBusy = false,
-    this.isEnabled = true,
-    this.color,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      color: color,
-      onPressed: isBusy || !isEnabled ? null : onPressed,
-      child: isBusy
-          ? SizedBox(height: 20, width: 20, child: CircularProgressIndicator())
-          : Text(text),
     );
   }
 }
