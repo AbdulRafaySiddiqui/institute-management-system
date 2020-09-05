@@ -23,13 +23,12 @@ class ClassViewController extends BaseItemController<ClassModel, ClassApi> {
   ClassModel fromJson(Map<String, dynamic> map) => ClassModel.fromJson(map);
 
   @override
-  List<ClassModel> get itemsList => super.itemsList;
-  // selectedBranch.value == null
-  //     ? super.itemsList
-  //     : super
-  //         .itemsList
-  //         .where((e) => e.branchId == selectedBranch.value.id)
-  //         .toList();
+  List<ClassModel> get itemsList => selectedBranch.value == null
+      ? super.itemsList
+      : super
+          .itemsList
+          .where((e) => e.branchId == selectedBranch.value.id)
+          .toList();
 
   BranchApi _branchApi = locator<BranchApi>();
   final branchList = <BranchModel>[].obs;
