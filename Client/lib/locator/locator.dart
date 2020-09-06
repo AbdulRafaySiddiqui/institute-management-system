@@ -1,4 +1,5 @@
 import 'package:Client/service/NavigationService/NavigationService.dart';
+import 'package:Client/service/api/BatchApi.dart';
 import 'package:Client/service/api/BranchApi.dart';
 import 'package:Client/service/api/ClassApi.dart';
 import 'package:get_it/get_it.dart';
@@ -9,4 +10,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => BranchApi());
   locator.registerLazySingleton(() => ClassApi());
+  locator.registerLazySingleton(() => BatchApi());
 }
+
+int get currentBranchId => 30;
