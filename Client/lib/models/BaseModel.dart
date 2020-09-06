@@ -1,4 +1,4 @@
-class BaseModel {
+abstract class BaseModel {
   BaseModel({this.id});
   int id;
 
@@ -10,7 +10,9 @@ class BaseModel {
 
   toInt(dynamic value) => value == null
       ? 0
-      : value is String ? int.parse(value) : int.parse(value.toString());
+      : value is String
+          ? int.parse(value)
+          : int.parse(value.toString());
 
   BaseModel.fromJson(Map<String, dynamic> map) {
     createdBy = map["createdBy"];

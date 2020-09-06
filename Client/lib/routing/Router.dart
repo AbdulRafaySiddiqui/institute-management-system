@@ -1,4 +1,5 @@
 import 'package:Client/routing/RouteNames.dart';
+import 'package:Client/views/pages/BatchView.dart';
 import 'package:Client/views/pages/BranchView.dart';
 import 'package:Client/views/pages/ClassView.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(BranchView(), settings);
     case classRoute:
       return _getPageRoute(ClassView(), settings);
+    case batchRoute:
+      return _getPageRoute(BatchView(), settings);
     default:
-      return _getPageRoute(ClassView(), settings);
+      return _getPageRoute(BranchView(), settings);
   }
 }
 

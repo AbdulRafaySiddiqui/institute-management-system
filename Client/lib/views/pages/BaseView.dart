@@ -13,17 +13,19 @@ class BaseView extends StatelessWidget {
   Widget build(BuildContext context) {
     return isLoading
         ? Center(child: CircularProgressIndicator())
-        : Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Column(
-                  children: [addForm, updateForm],
+        : SingleChildScrollView(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [addForm, updateForm],
+                  ),
                 ),
-              ),
-              Expanded(flex: 5, child: listCard)
-            ],
+                Expanded(flex: 5, child: listCard)
+              ],
+            ),
           );
   }
 }

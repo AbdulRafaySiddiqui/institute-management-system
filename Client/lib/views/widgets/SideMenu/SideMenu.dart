@@ -136,11 +136,11 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SideMenuItemModel("Dashboard", Icons.dashboard, branchRoute),
-                SideMenuItemModel("Home", Icons.home, classRoute),
+                SideMenuItemModel("Branch", Icons.home, branchRoute),
                 SideMenuItemModel(
-                    "Student", Icons.supervised_user_circle, classRoute),
+                    "Class", Icons.supervised_user_circle, classRoute),
                 SideMenuItemModel(
-                    "Teacher", Icons.admin_panel_settings, classRoute),
+                    "Batch", Icons.admin_panel_settings, batchRoute),
                 SideMenuItemModel("Exam", Icons.ac_unit, classRoute),
                 SideMenuItemModel(
                     "Courses", Icons.add_road_rounded, classRoute),

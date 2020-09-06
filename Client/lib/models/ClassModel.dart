@@ -5,12 +5,14 @@ class ClassModel extends BaseModel {
   String name;
   int branchId;
 
+  @override
   ClassModel.fromJson(Map<String, dynamic> map) : super.fromJson(map) {
     id = toInt(map['classId']);
     name = map['name'];
     branchId = map["branchId"];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     var map = super.toJson();
     map.addAll({"classId": id, "name": name, "branchId": branchId});

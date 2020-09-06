@@ -13,44 +13,46 @@ class ClassView extends StatelessWidget {
   final controller = Get.put(ClassViewController());
   @override
   Widget build(BuildContext context) {
-    return BaseView(
-      isLoading: controller.isLoading.value,
-      addForm: _form(value: ClassModel().toJson()),
-      updateForm: Obx(
-        () => _form(
-            isUpdateForm: true, value: controller.selectedItem.value?.toJson()),
-      ),
-      listCard: Obx(
-        () => BaseListCard(
-          isLoading: controller.isFetchingData.value,
-          filters: [
-            Obx(() {
-              return DropdownButton(
-                  hint: Text(EntityNames.branchName),
-                  value: controller.selectedBranch.value,
-                  items: controller.branchList
-                      ?.map(
-                        (e) => DropdownMenuItem(
-                          child: Text(e.name),
-                          value: e,
-                        ),
-                      )
-                      ?.toList(),
-                  onChanged: (value) => controller.selectBranch(value));
-            }),
-          ],
-          columns: [
-            DataColumn(label: Text('Name')),
-          ],
-          rows: List.generate(
-            controller.itemsList.length,
-            (i) => DataRow(
-                onSelectChanged: (_) => controller.selectItem(i),
-                selected: controller.selectedItems[i],
-                cells: [
-                  DataCell(Text(controller.itemsList[i].name)),
-                ]),
-          ).toList(),
+    return Obx(
+      () => BaseView(
+        isLoading: controller.isLoading.value,
+        addForm: _form(value: ClassModel().toJson()),
+        updateForm: Obx(
+          () => _form(
+              isUpdateForm: true, value: controller.selectedItem?.toJson()),
+        ),
+        listCard: Obx(
+          () => BaseListCard(
+            isLoading: controller.isFetchingData.value,
+            filters: [
+              Obx(() {
+                return DropdownButton(
+                    hint: Text(EntityNames.branchName),
+                    value: controller.selectedBranch.value,
+                    items: controller.branchList
+                        ?.map(
+                          (e) => DropdownMenuItem(
+                            child: Text(e.name),
+                            value: e,
+                          ),
+                        )
+                        ?.toList(),
+                    onChanged: (value) => controller.selectBranch(value));
+              }),
+            ],
+            columns: [
+              DataColumn(label: Text('Name')),
+            ],
+            rows: List.generate(
+              controller.itemsList.length,
+              (i) => DataRow(
+                  onSelectChanged: (_) => controller.selectItem(i),
+                  selected: controller.selectedItems[i],
+                  cells: [
+                    DataCell(Text(controller.itemsList[i].name)),
+                  ]),
+            ).toList(),
+          ),
         ),
       ),
     );
