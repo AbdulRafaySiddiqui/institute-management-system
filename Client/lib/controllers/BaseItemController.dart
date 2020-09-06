@@ -7,7 +7,7 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
     extends GetxController {
   @override
   void onInit() async {
-    isLoading.value = false;
+    isLoading.value = true;
 
     await fetchAllItems(notify: false);
 
@@ -18,7 +18,8 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
 
   final isLoading = false.obs;
   final selectedIndex = (-1).obs;
-  final selectedItem = Rx<T>();
+  T get selectedItem =>
+      selectedIndex.value > -1 ? _itemsList[selectedIndex.value] : null;
   List<bool> get selectedItems =>
       List<bool>.generate(_itemsList.length, (i) => selectedIndex.value == i);
   final _itemsList = <T>[].obs;
@@ -34,7 +35,6 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
     if (isAdding.value || isUpdating.value || isDeleting.value) return;
 
     selectedIndex.value = index;
-    selectedItem.value = _itemsList[index];
   }
 
   Future<void> fetchAllItems({int id, bool notify = true}) async {
@@ -70,8 +70,6 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
   }
 
   Future<void> updateItem(Map<String, dynamic> map) async {
-    selectedItem(fromJson(map));
-
     isUpdating.value = true;
 
     var value = fromJson(map);
@@ -79,7 +77,6 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
     if (response is String)
       Get.defaultDialog();
     else {
-      selectedItem(response);
       _itemsList[selectedIndex.value] = response;
       selectedItems.add(false);
     }
@@ -90,12 +87,11 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
   Future<void> deleteItem() async {
     isDeleting.value = true;
 
-    var response = await api.delete(selectedItem.value.id);
+    var response = await api.delete(selectedItem.id);
     if (response is String) {
       Get.defaultDialog();
     } else {
-      _itemsList.remove(selectedItem.value);
-      selectedItem.value = null;
+      _itemsList.remove(selectedItem);
       selectedIndex(-1);
     }
 
