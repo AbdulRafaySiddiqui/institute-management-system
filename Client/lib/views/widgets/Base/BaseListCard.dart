@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class BaseListCard extends StatelessWidget {
   BaseListCard(
@@ -44,6 +43,7 @@ class BaseListCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: filters,
               ),
+            Divider(),
             isLoading
                 ? Center(child: CircularProgressIndicator())
                 : Align(
