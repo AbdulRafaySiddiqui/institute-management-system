@@ -9,10 +9,10 @@ import 'package:get/get.dart';
 class ClassViewController extends BaseItemController<ClassModel, ClassApi> {
   @override
   void onInit() async {
-    isLoading.value = false;
+    isLoading.value = true;
 
     await fetchBranches();
-    if (branchList != null) {
+    if (branchList.length > 0) {
       selectBranch(branchList[0], notify: false);
     }
 
@@ -35,7 +35,7 @@ class ClassViewController extends BaseItemController<ClassModel, ClassApi> {
   final selectedBranch = BranchModel().obs;
 
   selectBranch(BranchModel model, {bool notify = true}) async {
-    selectedItem.value = null;
+    selectedIndex.value = -1;
     selectedBranch(model);
     await fetchAllItems(id: model.id, notify: notify);
   }
