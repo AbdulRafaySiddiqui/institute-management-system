@@ -12,7 +12,7 @@ namespace Domain
         public string Name { get; set; }
 
         [Required]
-        public int? ClassId { get; set; }
+        public int ClassId { get; set; }
         public Class Class { get; set; }
 
         [MaxLength(50)]
