@@ -8,7 +8,7 @@ namespace API
         public CoursesController(ICourseService service)
         : base(
             service: service,
-            filterProp: e => e.ClassId ?? 0
+            filterProp: e => e.ClassId
           )
         { }
     }
