@@ -30,9 +30,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   get_it: ^4.0.4
   provider: ^4.3.2+1
-  json_annotation: ^3.0.1
   http: ^0.12.2
-  draggable_scrollbar: ^0.0.4
   flutter_form_builder: ^3.14.0-alpha.2
   intl: ^0.16.1
   get: ^3.8.0
@@ -41,8 +39,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^3.4.1
-  build_runner: ^1.10.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
