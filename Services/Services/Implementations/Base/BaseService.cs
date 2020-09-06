@@ -45,9 +45,12 @@ namespace Services
                     func.Parameters.Single());
 
             var query = _entity.Where(predicate);
-            foreach (var include in includeFuncs)
+            if(includeFuncs != null)
             {
-                query = query.Include(include);
+                foreach (var include in includeFuncs)
+                {
+                    query = query.Include(include);
+                }
             }
             return await query.ToListAsync();
         }
