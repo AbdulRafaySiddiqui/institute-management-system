@@ -1,4 +1,4 @@
-import 'package:Client/routing/RouteNames.dart';
+import 'package:Client/routing/Routes.dart';
 import 'package:Client/models/SideMenuModel.dart';
 import 'package:Client/views/widgets/SideMenu/SideMenuItem.dart';
 import 'package:flutter/material.dart';
@@ -135,15 +135,16 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SideMenuItemModel("Dashboard", Icons.dashboard, branchRoute),
-                SideMenuItemModel("Branch", Icons.home, branchRoute),
                 SideMenuItemModel(
-                    "Class", Icons.supervised_user_circle, classRoute),
+                    "Dashboard", Icons.dashboard, Routes.branchRoute),
+                SideMenuItemModel("Branch", Icons.home, Routes.branchRoute),
                 SideMenuItemModel(
-                    "Batch", Icons.admin_panel_settings, batchRoute),
-                SideMenuItemModel("Exam", Icons.ac_unit, classRoute),
+                    "Class", Icons.supervised_user_circle, Routes.classRoute),
                 SideMenuItemModel(
-                    "Courses", Icons.add_road_rounded, classRoute),
+                    "Batch", Icons.admin_panel_settings, Routes.batchRoute),
+                SideMenuItemModel("Course", Icons.ac_unit, Routes.courseRoute),
+                SideMenuItemModel(
+                    "Courses", Icons.add_road_rounded, Routes.classRoute),
               ].asMap().entries.map((e) {
                 return SideMenuItem(
                   title: e.value.title,

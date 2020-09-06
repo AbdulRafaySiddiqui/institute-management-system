@@ -1,7 +1,7 @@
-import 'package:Client/controllers/ClassViewController.dart';
+import 'package:Client/controllers/CourseViewController.dart';
 import 'package:Client/localization/EntityNames.dart';
-import 'package:Client/models/ClassModel.dart';
-import 'package:Client/service/api/ClassApi.dart';
+import 'package:Client/models/CourseModel.dart';
+import 'package:Client/service/api/CourseApi.dart';
 import 'package:Client/views/pages/BaseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';
 import 'package:Client/views/widgets/Base/BaseListCard.dart';
@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
-class ClassView extends StatelessWidget {
-  final controller = Get.put(ClassViewController());
+class CourseView extends StatelessWidget {
+  final controller = Get.put(CourseViewController());
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => BaseView(
         isLoading: controller.isLoading.value,
-        addForm: _form(value: ClassModel().toJson()),
+        addForm: _form(value: CourseModel().toJson()),
         updateForm: Obx(
           () => _form(
               isUpdateForm: true, value: controller.selectedItem?.toJson()),
@@ -27,9 +27,9 @@ class ClassView extends StatelessWidget {
             filters: [
               Obx(() {
                 return DropdownButton(
-                    hint: Text(EntityNames.branchName),
-                    value: controller.selectedBranch.value,
-                    items: controller.branchList
+                    hint: Text(EntityNames.className),
+                    value: controller.selectedClass.value,
+                    items: controller.classList
                         ?.map(
                           (e) => DropdownMenuItem(
                             child: Text(e.name),
@@ -37,11 +37,12 @@ class ClassView extends StatelessWidget {
                           ),
                         )
                         ?.toList(),
-                    onChanged: (value) => controller.selectBranch(value));
+                    onChanged: (value) => controller.selectClass(value));
               }),
             ],
             columns: [
               DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Short Name')),
             ],
             rows: List.generate(
               controller.itemsList.length,
@@ -50,6 +51,7 @@ class ClassView extends StatelessWidget {
                   selected: controller.selectedItems[i],
                   cells: [
                     DataCell(Text(controller.itemsList[i].name)),
+                    DataCell(Text(controller.itemsList[i].shortName)),
                   ]),
             ).toList(),
           ),
@@ -60,8 +62,8 @@ class ClassView extends StatelessWidget {
 }
 
 _form({bool isUpdateForm = false, Map<String, dynamic> value}) {
-  final controller = Get.put(ClassViewController());
-  return BaseForm<ClassViewController, ClassModel, ClassApi>(
+  final controller = Get.put(CourseViewController());
+  return BaseForm<CourseViewController, CourseModel, CourseApi>(
       inputWidgets: [
         FormBuilderTextField(
           attribute: 'name',
@@ -71,17 +73,25 @@ _form({bool isUpdateForm = false, Map<String, dynamic> value}) {
             FormBuilderValidators.maxLength(100)
           ],
         ),
+        FormBuilderTextField(
+          attribute: 'shortName',
+          decoration: InputDecoration(labelText: "Short Name"),
+          validators: [
+            FormBuilderValidators.required(),
+            FormBuilderValidators.maxLength(50)
+          ],
+        ),
         FormBuilderDropdown(
-          attribute: "branchId",
-          decoration: InputDecoration(labelText: EntityNames.branchName),
+          attribute: "classId",
+          decoration: InputDecoration(labelText: EntityNames.className),
           validators: [FormBuilderValidators.required()],
-          items: controller.branchList
+          items: controller.classList
               ?.map((item) =>
                   DropdownMenuItem(value: item.id, child: Text(item.name)))
               ?.toList(),
         ),
       ],
-      itemName: EntityNames.className,
+      itemName: EntityNames.courseName,
       isUpdateForm: isUpdateForm,
       initialValue: value);
 }

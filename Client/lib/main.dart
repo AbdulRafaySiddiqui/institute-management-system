@@ -1,8 +1,6 @@
 import 'package:Client/constants/colors.dart';
 import 'package:Client/locator/locator.dart';
-import 'package:Client/routing/RouteNames.dart';
-import 'package:Client/routing/Router.dart';
-import 'package:Client/service/NavigationService/NavigationService.dart';
+import 'package:Client/routing/Routes.dart';
 import 'package:Client/views/Layout/Layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +11,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -35,9 +32,8 @@ class MyApp extends StatelessWidget {
               labelStyle:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white))),
       builder: (context, child) => Layout(child: child),
-      navigatorKey: locator<NavigationService>().navigatorKey,
-      onGenerateRoute: generateRoute,
-      initialRoute: branchRoute,
+      initialRoute: Routes.branchRoute,
+      getPages: Routes.pages,
     );
   }
 }

@@ -1,5 +1,3 @@
-import 'package:Client/locator/locator.dart';
-import 'package:Client/service/NavigationService/NavigationService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -36,7 +34,7 @@ class SideMenuItem extends StatelessWidget {
       onTap: () {
         selectItem(index);
         Get.reset();
-        locator<NavigationService>().navigateTo(pageRoute);
+        Get.toNamed(pageRoute);
       },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,

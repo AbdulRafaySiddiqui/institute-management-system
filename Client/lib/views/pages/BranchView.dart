@@ -2,6 +2,7 @@ import 'package:Client/controllers/BranchViewController.dart';
 import 'package:Client/models/BranchModel.dart';
 import 'package:Client/service/api/BranchApi.dart';
 import 'package:Client/views/pages/BaseView.dart';
+import 'package:Client/views/pages/CourseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';
 import 'package:Client/views/widgets/Base/BaseListCard.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,10 @@ _form({var isUpdateForm = false, Map<String, dynamic> value}) {
     FormBuilderTextField(
       attribute: 'name',
       decoration: InputDecoration(labelText: "Name"),
-      validators: [FormBuilderValidators.required()],
+      validators: [
+        FormBuilderValidators.required(),
+        FormBuilderValidators.maxLength(100),
+      ],
     ),
   ], itemName: "Branch", isUpdateForm: isUpdateForm, initialValue: value);
 }
