@@ -1,4 +1,4 @@
-import 'package:Client/models/BaseModel.dart';
+import 'package:Client/models/Base/BaseModel.dart';
 
 class ClassModel extends BaseModel {
   ClassModel({int id, this.name}) : super(id: id);

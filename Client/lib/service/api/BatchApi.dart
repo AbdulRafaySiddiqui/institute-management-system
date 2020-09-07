@@ -1,4 +1,4 @@
-import 'package:Client/models/BatchModel.dart';
+import 'package:Client/models/Batch/BatchModel.dart';
 import 'package:Client/service/api/BaseApi.dart';
 
 class BatchApi extends BaseApi<BatchModel> {

@@ -1,4 +1,4 @@
-import 'package:Client/models/ClassModel.dart';
+import 'package:Client/models/Class/ClassModel.dart';
 import 'package:Client/service/api/BaseApi.dart';
 
 class ClassApi extends BaseApi<ClassModel> {

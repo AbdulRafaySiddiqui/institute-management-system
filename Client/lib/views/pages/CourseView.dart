@@ -1,6 +1,6 @@
 import 'package:Client/controllers/CourseViewController.dart';
 import 'package:Client/localization/EntityNames.dart';
-import 'package:Client/models/CourseModel.dart';
+import 'package:Client/models/Course/CourseModel.dart';
 import 'package:Client/service/api/CourseApi.dart';
 import 'package:Client/views/pages/BaseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';

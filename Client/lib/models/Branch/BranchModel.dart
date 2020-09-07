@@ -1,4 +1,4 @@
-import 'package:Client/models/BaseModel.dart';
+import 'package:Client/models/Base/BaseModel.dart';
 
 class BranchModel extends BaseModel {
   BranchModel({int id, this.name}) : super(id: id);

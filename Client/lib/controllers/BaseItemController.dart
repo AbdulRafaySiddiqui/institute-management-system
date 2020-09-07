@@ -1,5 +1,5 @@
 import 'package:Client/locator/locator.dart';
-import 'package:Client/models/BaseModel.dart';
+import 'package:Client/models/Base/BaseModel.dart';
 import 'package:Client/service/api/BaseApi.dart';
 import 'package:get/get.dart';
 

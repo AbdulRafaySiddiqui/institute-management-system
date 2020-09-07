@@ -1,5 +1,5 @@
 import 'package:Client/controllers/BranchViewController.dart';
-import 'package:Client/models/BranchModel.dart';
+import 'package:Client/models/Branch/BranchModel.dart';
 import 'package:Client/service/api/BranchApi.dart';
 import 'package:Client/views/pages/BaseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';

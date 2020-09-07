@@ -1,6 +1,6 @@
 import 'package:Client/controllers/ClassViewController.dart';
 import 'package:Client/localization/EntityNames.dart';
-import 'package:Client/models/ClassModel.dart';
+import 'package:Client/models/Class/ClassModel.dart';
 import 'package:Client/service/api/ClassApi.dart';
 import 'package:Client/views/pages/BaseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';

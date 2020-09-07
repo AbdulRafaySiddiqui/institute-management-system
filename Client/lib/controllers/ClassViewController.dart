@@ -1,7 +1,7 @@
 import 'package:Client/controllers/BaseItemController.dart';
 import 'package:Client/locator/locator.dart';
-import 'package:Client/models/BranchModel.dart';
-import 'package:Client/models/ClassModel.dart';
+import 'package:Client/models/Branch/BranchModel.dart';
+import 'package:Client/models/Class/ClassModel.dart';
 import 'package:Client/service/api/BranchApi.dart';
 import 'package:Client/service/api/ClassApi.dart';
 import 'package:get/get.dart';

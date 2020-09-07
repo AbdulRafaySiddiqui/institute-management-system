@@ -1,7 +1,7 @@
 import 'package:Client/Utils/Utils.dart';
 import 'package:Client/controllers/BatchViewController.dart';
 import 'package:Client/localization/EntityNames.dart';
-import 'package:Client/models/BatchModel.dart';
+import 'package:Client/models/Batch/BatchModel.dart';
 import 'package:Client/service/api/BatchApi.dart';
 import 'package:Client/views/pages/BaseView.dart';
 import 'package:Client/views/widgets/Base/BaseForm.dart';

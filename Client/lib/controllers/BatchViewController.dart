@@ -1,7 +1,7 @@
 import 'package:Client/controllers/BaseItemController.dart';
 import 'package:Client/locator/locator.dart';
-import 'package:Client/models/BatchModel.dart';
-import 'package:Client/models/ClassModel.dart';
+import 'package:Client/models/Batch/BatchModel.dart';
+import 'package:Client/models/Class/ClassModel.dart';
 import 'package:Client/service/api/BatchApi.dart';
 import 'package:Client/service/api/ClassApi.dart';
 import 'package:get/get.dart';

@@ -1,5 +1,5 @@
 import 'package:Client/controllers/BaseItemController.dart';
-import 'package:Client/models/BaseModel.dart';
+import 'package:Client/models/Base/BaseModel.dart';
 import 'package:Client/service/api/BaseApi.dart';
 import 'package:Client/views/widgets/Buttons/PrimaryButton.dart';
 import 'package:flutter/material.dart';

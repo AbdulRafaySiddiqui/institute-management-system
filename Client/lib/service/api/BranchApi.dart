@@ -1,4 +1,4 @@
-import 'package:Client/models/BranchModel.dart';
+import 'package:Client/models/Branch/BranchModel.dart';
 import 'package:Client/service/api/BaseApi.dart';
 
 class BranchApi extends BaseApi<BranchModel> {

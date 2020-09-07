@@ -1,4 +1,4 @@
-import 'package:Client/models/CourseModel.dart';
+import 'package:Client/models/Course/CourseModel.dart';
 import 'package:Client/service/api/BaseApi.dart';
 
 class CourseApi extends BaseApi<CourseModel> {
