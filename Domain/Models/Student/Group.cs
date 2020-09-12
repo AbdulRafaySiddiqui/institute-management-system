@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace Domain
 {
@@ -16,6 +13,7 @@ namespace Domain
 
         public virtual ObservableCollection<Subgroup> Subgroups { get; set; } = new ObservableCollection<Subgroup>();
 
+        [Required]
         public int BatchId { get; set; }
         public virtual Batch Batch { get; set; }
     }

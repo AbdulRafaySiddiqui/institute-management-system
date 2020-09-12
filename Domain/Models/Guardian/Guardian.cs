@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
@@ -14,6 +15,7 @@ namespace Domain
 
         public virtual ObservableCollection<Phone> Phones { get; set; } = new ObservableCollection<Phone>();
 
+        [Required]
         public int GuardianTypeId { get; set; }
         public virtual GuardianType GuardianType { get; set; }
 

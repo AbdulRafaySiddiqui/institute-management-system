@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain
 {
     public class BatchFeeType : BaseModel
     {
@@ -10,9 +12,11 @@
 
         public int DueDay { get; set; }
 
+        [Required]
         public int FeeTypeId { get; set; }
         public virtual FeeType FeeType { get; set; }
 
+        [Required]
         public int BatchId { get; set; }
         public virtual Batch Batch { get; set; }
     }

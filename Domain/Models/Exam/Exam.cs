@@ -16,6 +16,7 @@ namespace Domain
         [MaxLength(2048)]
         public string ExamDetails { get; set; }
 
+        [Required]
         public int ExamTypeId { get; set; }
         public virtual ExamType ExamType { get; set; }
 

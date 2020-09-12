@@ -16,9 +16,11 @@ namespace Domain
 
         public virtual List<ExamGrade> ExamGrades { get; set; }
 
+        [Required]
         public int CourseId { get; set; }
         public virtual Course Course { get; set; }
 
+        [Required]
         public int BatchId { get; set; }
         public virtual Batch Batch { get; set; }
     }

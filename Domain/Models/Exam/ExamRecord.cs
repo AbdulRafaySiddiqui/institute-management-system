@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain
 {
     public class ExamRecord : BaseModel
     {
@@ -8,9 +10,11 @@
 
         public bool HasAttended { get; set; }
 
+        [Required]
         public int ExamId { get; set; }
         public virtual Exam Exam { get; set; }
 
+        [Required]
         public int StudentId { get; set; }
         public virtual Student Student { get; set; }
 

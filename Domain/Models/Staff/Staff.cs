@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
@@ -17,6 +18,7 @@ namespace Domain
         
         public virtual List<Phone> Phones { get; set; }
         
+        [Required]
         public int StaffCategoryId { get; set; }
         public virtual StaffCategory Category { get; set; }
     }

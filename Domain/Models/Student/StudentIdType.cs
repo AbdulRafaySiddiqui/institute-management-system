@@ -14,6 +14,7 @@ namespace Domain
 
         public string Seperator { get; set; }
 
+        [Required]
         public int BranchId { get; set; }
         public virtual Branch Branch { get; set; }
     }

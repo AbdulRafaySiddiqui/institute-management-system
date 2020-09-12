@@ -13,6 +13,7 @@ namespace Domain
         [MaxLength(100)]
         public string Prefix { get; set; }
 
+        [Required]
         public int BranchId { get; set; }
         public Branch Branch { get; set; }
     }

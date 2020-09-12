@@ -14,6 +14,7 @@ namespace Domain
 
         public int MaxValue { get; set; } = 0;
 
+        [Required]
         public int ExamGradeTypeId { get; set; }
         public ExamGradeType ExamGradeType { get; set; }
     }

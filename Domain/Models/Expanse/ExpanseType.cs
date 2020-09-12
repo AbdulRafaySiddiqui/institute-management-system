@@ -10,6 +10,8 @@ namespace Domain
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [Required]
+        public int BranchId { get; set; }
         public virtual Branch Branch { get; set; }
     }
 }

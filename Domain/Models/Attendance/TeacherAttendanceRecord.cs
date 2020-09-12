@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
@@ -10,6 +11,8 @@ namespace Domain
 
         public int TeacherAttendanceTypeId { get; set; }
         public virtual TeacherAttendanceType TeacherAttendanceType { get; set; }
+
+        [Required]
         public int TeacherId { get; set; }
         public virtual Teacher Teacher { get; set; }
     }

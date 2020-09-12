@@ -9,9 +9,11 @@ namespace Domain
         [MaxLength(100)]
         public string Value { get; set; }
 
+        [Required]
         public int FieldId { get; set; }
         public virtual Field Field { get; set; }
 
+        [Required]
         public int StudentId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
@@ -13,6 +14,7 @@ namespace Domain
         public int? PhotoId { get; set; }
         public virtual Photo Photo { get; set; } = new Photo();
 
+        [Required]
         public int StudentIdTypeId { get; set; }
         public virtual StudentIdType StudentIdType { get; set; }
 

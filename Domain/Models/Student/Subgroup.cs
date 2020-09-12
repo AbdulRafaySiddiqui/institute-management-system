@@ -11,9 +11,10 @@ namespace Domain
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [Required]
         public int GroupId { get; set; }
         public virtual Group Group { get; set; }
 
-        public virtual List<StudentSubgroup> StudentSubgroups { get; set; }  
+        public virtual List<StudentSubgroup> StudentSubgroups { get; set; }
     }
 }

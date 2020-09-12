@@ -10,6 +10,7 @@ namespace Domain
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [Required]
         public int BatchId { get; set; }
         public virtual Batch Batch { get; set; }
 

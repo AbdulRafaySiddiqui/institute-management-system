@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Domain
 {
     public class ExamGroupRecord : BaseModel
     {
+        [Required]
+        public int ExamGroupId { get; set; }
         public ExamGroup Group { get; set; }
         public List<ExamRecord> ExamRecords { get; set; }
         public string Grade { get; set; }
