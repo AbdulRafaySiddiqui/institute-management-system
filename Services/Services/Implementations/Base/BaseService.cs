@@ -1,8 +1,9 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Persistences;
+using Persistence;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -24,28 +25,54 @@ namespace Services
             _entity = _context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<T> GetByIdAsync(int id,
+            Expression<Func<T, object>>[] includeFuncs)
         {
-            return await _entity.ToListAsync();
-        }
+            var item = await _entity.FindAsync(id);
+            if (includeFuncs != null)
+            {
+                if (item == null)
+                {
+                    return null;
+                }
 
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await _entity.FindAsync(id);
+                foreach (var include in includeFuncs)
+                {
+                    if (typeof(IEnumerable).IsAssignableFrom(include.Body.Type))
+                    {
+                        var inc = include as Expression<Func<T, IEnumerable<object>>>;
+                        if (inc != null)
+                        {
+                            await _context.Entry(item).Collection(inc).LoadAsync();
+                        }
+                    }
+                    else
+                        await _context.Entry(item).Reference(include).LoadAsync();
+                }
+            }
+            return item;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<TValue>(
-            Expression<Func<T, TValue>> func,
-            TValue value,
+            Expression<Func<T, TValue>> wherePredicate,
+            TValue predicateValue,
             Expression<Func<T, object>>[] includeFuncs)
         {
-            var predicate =
-                Expression.Lambda<Func<T, bool>>(
-                    Expression.Equal(func.Body, Expression.Constant(value)),
-                    func.Parameters.Single());
+            var query = _entity.AsQueryable();
 
-            var query = _entity.Where(predicate);
-            if(includeFuncs != null)
+            //returns all record if where predicate is null
+            if (wherePredicate != null)
+            {
+                var predicate =
+                    Expression.Lambda<Func<T, bool>>(
+                        Expression.Equal(wherePredicate.Body, Expression.Constant(predicateValue)),
+                        wherePredicate.Parameters.Single());
+
+                query = query.Where(predicate);
+            }
+
+            //won't include any nested fields if includeFunds are null
+            if (includeFuncs != null)
             {
                 foreach (var include in includeFuncs)
                 {
