@@ -24,7 +24,7 @@ class CourseViewController extends BaseItemController<CourseModel, CourseApi> {
 
   @override
   List<CourseModel> get itemsList => selectedClass.value == null
-      ? super.itemsList
+      ? []
       : super
           .itemsList
           .where((e) => e.classId == selectedClass.value.id)

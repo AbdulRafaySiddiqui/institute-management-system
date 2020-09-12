@@ -1,4 +1,4 @@
-import 'package:Client/controllers/FeeTypeController.dart';
+import 'package:Client/controllers/FeeTypeViewController.dart';
 import 'package:Client/localization/EntityNames.dart';
 import 'package:Client/locator/locator.dart';
 import 'package:Client/models/Fee/FeeTypeModel.dart';

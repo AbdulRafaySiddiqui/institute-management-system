@@ -42,14 +42,19 @@ class BranchView extends StatelessWidget {
 }
 
 _form({var isUpdateForm = false, Map<String, dynamic> value}) {
-  return BaseForm<BranchViewController, BranchModel, BranchApi>(inputWidgets: [
-    FormBuilderTextField(
-      attribute: 'name',
-      decoration: InputDecoration(labelText: "Name"),
-      validators: [
-        FormBuilderValidators.required(),
-        FormBuilderValidators.maxLength(100),
-      ],
-    ),
-  ], itemName: "Branch", isUpdateForm: isUpdateForm, initialValue: value);
+  return BaseForm<BranchViewController, BranchModel, BranchApi>(
+    itemName: "Branch",
+    isUpdateForm: isUpdateForm,
+    initialValue: value,
+    inputWidgets: [
+      FormBuilderTextField(
+        attribute: 'name',
+        decoration: InputDecoration(labelText: "Name"),
+        validators: [
+          FormBuilderValidators.required(),
+          FormBuilderValidators.maxLength(100),
+        ],
+      ),
+    ],
+  );
 }

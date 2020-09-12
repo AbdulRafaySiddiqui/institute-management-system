@@ -31,7 +31,8 @@ namespace Infrastructure
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                //TODO: set resonable token expiration time
+                Expires = DateTime.Now.AddDays(30),
                 SigningCredentials = creds
             };
 

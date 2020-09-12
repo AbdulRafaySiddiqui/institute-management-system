@@ -24,7 +24,7 @@ class ClassViewController extends BaseItemController<ClassModel, ClassApi> {
 
   @override
   List<ClassModel> get itemsList => selectedBranch.value == null
-      ? super.itemsList
+      ? []
       : super
           .itemsList
           .where((e) => e.branchId == selectedBranch.value.id)

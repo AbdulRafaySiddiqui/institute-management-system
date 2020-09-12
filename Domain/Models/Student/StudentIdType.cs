@@ -10,7 +10,7 @@ namespace Domain
         [MaxLength(100)]
         public string CodeName { get; set; }
 
-        public int? NoOfDigits { get; set; }
+        public int NoOfDigits { get; set; }
 
         public string Seperator { get; set; }
 

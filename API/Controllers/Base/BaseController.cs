@@ -6,7 +6,6 @@ using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API
@@ -46,7 +45,7 @@ namespace API
         [HttpGet("{id}")]
         public async Task<ActionResult<T>> GetById(int id)
         {
-            var entity = await _service.GetByIdAsync(id);
+            var entity = await _service.GetByIdAsync(id,_includeFuncs);
             if (entity == null)
             {
                 return NotFound();
@@ -62,7 +61,8 @@ namespace API
                 var _entity = await _service.AddAsync(entity);
                 await _service.SaveAsync();
                 var _id = _service.GetKey(_entity);
-                return CreatedAtAction(nameof(GetById), new { id = _id }, _entity);
+                var _newEntity = await _service.GetByIdAsync(_id, _includeFuncs);
+                return CreatedAtAction(nameof(GetById), new { id = _id }, _newEntity);
             }
             return ValidationProblem(ModelState);
         }
@@ -79,7 +79,7 @@ namespace API
             {
                 _service.Update(entity);
                 await _service.SaveAsync();
-                var _updatedEntity = await _service.GetByIdAsync(id);
+                var _updatedEntity = await _service.GetByIdAsync(id,_includeFuncs);
                 return Ok(_updatedEntity);
             }
             return ValidationProblem(ModelState);
@@ -88,7 +88,7 @@ namespace API
         [HttpPatch("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] JsonPatchDocument<T> patchDoc)
         {
-            var _entity = await _service.GetByIdAsync(id);
+            var _entity = await _service.GetByIdAsync(id,_includeFuncs);
             if (_entity == null)
             {
                 return NotFound();
@@ -109,7 +109,7 @@ namespace API
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var _entity = await _service.GetByIdAsync(id);
+            var _entity = await _service.GetByIdAsync(id,_includeFuncs);
             if (_entity == null)
             {
                 return NotFound();

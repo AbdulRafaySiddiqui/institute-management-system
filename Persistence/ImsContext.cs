@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistences
+namespace Persistence
 {
     public class ImsContext : IdentityDbContext<User>
     {

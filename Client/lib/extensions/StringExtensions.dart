@@ -1,4 +1,4 @@
-import 'package:Client/models/RoutingData.dart';
+import 'package:Client/models/app/RoutingData.dart';
 
 extension StringExtensions on String {
   RoutingData get getRoutingData {

@@ -24,7 +24,7 @@ class BatchViewController extends BaseItemController<BatchModel, BatchApi> {
 
   @override
   List<BatchModel> get itemsList => selectedClass.value == null
-      ? super.itemsList
+      ? []
       : super
           .itemsList
           .where((e) => e.classId == selectedClass.value.id)

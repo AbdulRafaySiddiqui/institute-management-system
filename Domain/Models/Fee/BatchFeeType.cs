@@ -8,8 +8,6 @@
 
         public int LateFee { get; set; }
 
-        public int Discount { get; set; }
-
         public int DueDay { get; set; }
 
         public int FeeTypeId { get; set; }

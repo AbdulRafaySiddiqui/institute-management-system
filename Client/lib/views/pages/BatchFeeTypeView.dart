@@ -1,4 +1,4 @@
-import 'package:Client/controllers/BatchFeeTypeController.dart';
+import 'package:Client/controllers/BatchFeeTypeViewController.dart';
 import 'package:Client/localization/EntityNames.dart';
 import 'package:Client/models/Fee/BatchFeeTypeModel.dart';
 import 'package:Client/service/api/BatchFeeType.dart';

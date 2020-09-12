@@ -1,8 +1,6 @@
 using Domain;
 using Microsoft.AspNetCore.Identity;
-using Persistences;
-using System;
-using System.Net;
+using Persistence;
 using System.Threading.Tasks;
 
 namespace Services

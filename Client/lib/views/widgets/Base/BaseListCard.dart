@@ -41,7 +41,10 @@ class BaseListCard extends StatelessWidget {
             if (filters != null)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: filters,
+                children: filters
+                    .map((e) =>
+                        Padding(padding: EdgeInsets.only(left: 20), child: e))
+                    .toList(),
               ),
             Divider(),
             isLoading

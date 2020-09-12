@@ -1,6 +1,6 @@
 using Domain;
 using Microsoft.AspNetCore.Http;
-using Persistences;
+using Persistence;
 using System.Linq;
 
 namespace Services

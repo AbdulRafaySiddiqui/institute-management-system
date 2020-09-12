@@ -1,5 +1,6 @@
 import 'package:Client/locator/locator.dart';
 import 'package:Client/models/Base/BaseModel.dart';
+import 'package:Client/service/DialogService/DialogService.dart';
 import 'package:Client/service/api/BaseApi.dart';
 import 'package:get/get.dart';
 
@@ -43,9 +44,9 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
     }
 
     var response = await api.fetchAll(id: id);
-    if (response is String)
-      Get.defaultDialog();
-    else {
+    if (response is String) {
+      DialogService.showErrorDialog(message: response);
+    } else {
       _itemsList.value = response;
     }
 
@@ -59,9 +60,9 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
 
     var value = fromJson(map);
     var response = await api.add(value);
-    if (response is String)
-      Get.defaultDialog();
-    else {
+    if (response is String) {
+      DialogService.showErrorDialog(message: response);
+    } else {
       _itemsList.add(response);
       selectedItems.add(false);
     }
@@ -74,10 +75,15 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
 
     var value = fromJson(map);
     var response = await api.update(value);
-    if (response is String)
-      Get.defaultDialog();
-    else {
-      _itemsList[selectedIndex.value] = response;
+    if (response is String) {
+      DialogService.showErrorDialog(message: response);
+    } else {
+      if (selectedIndex.value < 0) {
+        int index = _itemsList.indexWhere((e) => e.id == (response as T).id);
+        _itemsList[index] = response;
+      } else {
+        _itemsList[selectedIndex.value] = response;
+      }
       selectedItems.add(false);
     }
 
@@ -89,7 +95,7 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
 
     var response = await api.delete(selectedItem.id);
     if (response is String) {
-      Get.defaultDialog();
+      DialogService.showErrorDialog(message: response);
     } else {
       _itemsList.remove(selectedItem);
       selectedIndex(-1);

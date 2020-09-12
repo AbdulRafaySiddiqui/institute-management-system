@@ -8,4 +8,10 @@ class Utils {
   }
 
   static String get dateFormate => "dd-MM-yyyy";
+
+  static int toInt(dynamic value) => value == null
+      ? 0
+      : value is String
+          ? int.parse(value)
+          : int.parse(value.toString());
 }

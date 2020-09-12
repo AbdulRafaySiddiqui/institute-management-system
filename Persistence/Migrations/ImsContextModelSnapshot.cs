@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Persistences;
+using Persistence;
 
 namespace Persistence.Migrations
 {
@@ -26,8 +26,7 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClassId")
-                        .IsRequired()
+                    b.Property<int>("ClassId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -84,9 +83,6 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime?>("DateTimeModified")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
 
                     b.Property<int>("DueDay")
                         .HasColumnType("int");
@@ -180,8 +176,7 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClassId")
-                        .IsRequired()
+                    b.Property<int>("ClassId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")

@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-
-namespace Domain
+﻿namespace Domain
 {
     public enum ValidationType
     {
-        None,
+        Text,
 
         Alphabetic,
 

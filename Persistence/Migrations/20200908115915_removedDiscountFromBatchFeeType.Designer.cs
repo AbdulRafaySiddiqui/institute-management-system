@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ImsContext))]
-    [Migration("20200824190343_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200908115915_removedDiscountFromBatchFeeType")]
+    partial class removedDiscountFromBatchFeeType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,8 +28,7 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClassId")
-                        .IsRequired()
+                    b.Property<int>("ClassId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -86,9 +85,6 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime?>("DateTimeModified")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
 
                     b.Property<int>("DueDay")
                         .HasColumnType("int");
@@ -182,8 +178,7 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClassId")
-                        .IsRequired()
+                    b.Property<int>("ClassId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")

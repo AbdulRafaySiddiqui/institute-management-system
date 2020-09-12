@@ -13,7 +13,7 @@ namespace API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Branch>>> Get()
         {
-            return Ok(await _service.GetAllAsync());
+            return Ok(await _service.GetAllAsync(null,0,null));
         }
     }
 }

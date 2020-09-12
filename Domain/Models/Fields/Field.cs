@@ -1,6 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace Domain
 {
@@ -8,6 +7,7 @@ namespace Domain
     {
         public int FieldId { get; set; }
 
+        [Required]
         public PersonType PersonType { get; set; }
 
         [Required]
@@ -19,10 +19,12 @@ namespace Domain
         [Required]
         public int OrderIndex { get; set; }
 
+        [Required]
         public InputMethod InputMethod { get; set; }
 
+        [Required]
         public ValidationType ValidationType { get; set; }
 
-        public virtual ObservableCollection<FieldValue> DefaultValues { get; set; }
+        public virtual List<FieldValue> DefaultValues { get; set; }
     }
 }

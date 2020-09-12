@@ -1,3 +1,5 @@
+import 'package:Client/Utils/Utils.dart';
+
 abstract class BaseModel {
   BaseModel({this.id});
   int id;
@@ -8,11 +10,7 @@ abstract class BaseModel {
   String modifiedBy;
   DateTime dateTimeModified;
 
-  toInt(dynamic value) => value == null
-      ? 0
-      : value is String
-          ? int.parse(value)
-          : int.parse(value.toString());
+  int toInt(dynamic value) => Utils.toInt(value);
 
   BaseModel.fromJson(Map<String, dynamic> map) {
     createdBy = map["createdBy"];

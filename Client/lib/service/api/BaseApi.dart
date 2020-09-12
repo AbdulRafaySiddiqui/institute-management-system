@@ -13,7 +13,7 @@ abstract class BaseApi<T extends BaseModel> {
   String _defaultErrorMessage = 'Something went wrong..!';
   Map<String, String> _header = {
     HttpHeaders.authorizationHeader:
-        "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYTM3OTU4My01NWNmLTQzYjItYjViZC0wNDgwYzUyOWYwYTEiLCJuYmYiOjE1OTkwNTM4NjEsImV4cCI6MTU5OTY1ODY2MSwiaWF0IjoxNTk5MDUzODYxfQ.-K38XHReQ600XfmRvqEz3jdI2c4IfVxfk9rQ5Euv98Gb05reGfDyFwFstlVv4IBeMCd1ZwPnwpq7zy7ood8rOw",
+        "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYTM3OTU4My01NWNmLTQzYjItYjViZC0wNDgwYzUyOWYwYTEiLCJuYmYiOjE1OTk2ODQ5OTMsImV4cCI6MTYwMjI3Njk5MywiaWF0IjoxNTk5Njg0OTkzfQ.8wCJLUNHN_pGpeSoM4dTkewknxIjqkELBq4_vV4BdVDFNYFxvLqCY6VP_SuVsxo_R5t5pXvfXXfYeMsMQl_1kw",
     HttpHeaders.contentTypeHeader: "application/json"
   };
 
@@ -48,6 +48,7 @@ abstract class BaseApi<T extends BaseModel> {
       if (response.statusCode == 201) {
         return fromJson(json.decode(response.body));
       }
+      return _defaultErrorMessage;
     } catch (e) {
       return _defaultErrorMessage;
     }
