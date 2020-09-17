@@ -1,13 +1,15 @@
 import 'package:Client/models/Base/BaseModel.dart';
 
-class StudentIdType extends BaseModel {
+class StudentIdTypeModel extends BaseModel {
+  StudentIdTypeModel({int id}) : super(id: id);
+
   int branchId;
   String codeName;
   int noOfDigits = 0;
   String seperator;
 
   @override
-  StudentIdType.fromJson(Map<String, dynamic> map) : super.fromJson(map) {
+  StudentIdTypeModel.fromJson(Map<String, dynamic> map) : super.fromJson(map) {
     id = toInt(map['studentIdTypeId']);
     branchId = toInt(map['branchId']);
     codeName = map['codeName'];

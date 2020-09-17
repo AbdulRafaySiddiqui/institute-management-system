@@ -51,28 +51,26 @@ class BaseListCard extends StatelessWidget {
                 ? Center(child: CircularProgressIndicator())
                 : Align(
                     alignment: Alignment.centerLeft,
-                    child:
-                        // Scrollbar(
-                        //   isAlwaysShown: true,
-                        //   controller: scrollController,
-                        //   child:
-                        SingleChildScrollView(
+                    child: Scrollbar(
+                      isAlwaysShown: true,
                       controller: scrollController,
-                      scrollDirection: Axis.vertical,
-                      child: DataTable(
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
+                            ),
                           ),
+                          showCheckboxColumn: false,
+                          columns: columnList,
+                          rows: rowList,
                         ),
-                        showCheckboxColumn: false,
-                        columns: columnList,
-                        rows: rowList,
                       ),
                     ),
                   ),
-            // ),
           ],
         ),
       ),

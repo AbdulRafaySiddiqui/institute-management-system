@@ -10,4 +10,7 @@ class EntityNames {
   static String get guardianName => "Guardian";
   static String get teacherName => "Teacher";
   static String get staffName => "Staff";
+  static String get studentIdTypeName => "Student ID Type";
+  static String get groupName => "Student Group";
+  static String get subgroupName => "Group Value";
 }

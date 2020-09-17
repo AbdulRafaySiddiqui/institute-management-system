@@ -14,6 +14,7 @@ class BaseForm<
     Key key,
     @required this.itemName,
     @required this.inputWidgets,
+    this.onSubmit,
     this.isUpdateForm = false,
     this.initialValue,
   }) : super(key: key);
@@ -21,6 +22,7 @@ class BaseForm<
   final String itemName;
   final Map<String, dynamic> initialValue;
   final List<Widget> inputWidgets;
+  final Function(Map<String, dynamic>, FormBuilderState) onSubmit;
   final GlobalKey<FormBuilderState> _form = GlobalKey<FormBuilderState>();
 
   @override
@@ -70,6 +72,10 @@ class BaseForm<
                           _form.currentState.save();
 
                           Map<String, dynamic> map = _form.currentState.value;
+
+                          if (onSubmit != null)
+                            onSubmit(map, _form.currentState);
+
                           if (isUpdateForm)
                             await controller
                                 .updateItem(_form.currentState.value);

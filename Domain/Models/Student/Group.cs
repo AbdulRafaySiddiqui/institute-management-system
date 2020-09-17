@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain
@@ -11,7 +11,7 @@ namespace Domain
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public virtual ObservableCollection<Subgroup> Subgroups { get; set; } = new ObservableCollection<Subgroup>();
+        public virtual List<Subgroup> Subgroups { get; set; } = new List<Subgroup>();
 
         [Required]
         public int BatchId { get; set; }

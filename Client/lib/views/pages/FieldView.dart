@@ -138,7 +138,7 @@ _form({bool isUpdateForm = false, Map<String, dynamic> value}) {
     if (values != null) {
       int i = 0;
       for (var item in values) {
-        value["defaultValues.key.$i"] = item["fieldValueId"];
+        value["defaultValues.id.$i"] = item["fieldValueId"];
         value["defaultValues.value.${i++}"] = item["value"];
       }
     }
@@ -263,7 +263,7 @@ _form({bool isUpdateForm = false, Map<String, dynamic> value}) {
                               color: Colors.red,
                               icon: Icon(Icons.delete),
                               onPressed: () {
-                                if (index < 2) {
+                                if (defaultValues.length < 3) {
                                   DialogService.showWarningDialog(
                                       message:
                                           "Must provide atleast two values.");

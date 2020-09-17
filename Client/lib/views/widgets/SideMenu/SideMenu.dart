@@ -146,7 +146,11 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
                 SideMenuItemModel("Batch Fee Type", Icons.add_road_rounded,
                     Routes.batchFeeTypeRoute),
                 SideMenuItemModel(
-                    "Custom Field", Icons.add_road_rounded, Routes.fieldRoute)
+                    "Custom Field", Icons.add_road_rounded, Routes.fieldRoute),
+                SideMenuItemModel("Student ID Type", Icons.add_road_rounded,
+                    Routes.studentIdTypeRoute),
+                SideMenuItemModel(
+                    "Student Groups", Icons.add_road_rounded, Routes.groupRoute)
               ].asMap().entries.map((e) {
                 return SideMenuItem(
                   title: e.value.title,

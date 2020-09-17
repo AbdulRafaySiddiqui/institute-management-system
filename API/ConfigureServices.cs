@@ -15,6 +15,8 @@ namespace API
             services.AddScoped<IFeeTypeService, FeeTypeService>();
             services.AddScoped<IBatchFeeTypeService, BatchFeeTypeService>();
             services.AddScoped<IFieldService, FieldService>();
+            services.AddScoped<IStudentIdTypeService, StudentIdTypeService>();
+            services.AddScoped<IGroupService, GroupService>();
             return services;
         }
     }
