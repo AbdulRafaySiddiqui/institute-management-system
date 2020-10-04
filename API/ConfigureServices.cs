@@ -17,6 +17,8 @@ namespace API
             services.AddScoped<IFieldService, FieldService>();
             services.AddScoped<IStudentIdTypeService, StudentIdTypeService>();
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IGuardianTypeService, GuardianTypeService>();
             return services;
         }
     }
