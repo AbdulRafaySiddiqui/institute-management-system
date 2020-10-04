@@ -6,6 +6,8 @@ import 'package:Client/service/api/CourseApi.dart';
 import 'package:Client/service/api/FeeTypeApi.dart';
 import 'package:Client/service/api/FieldApi.dart';
 import 'package:Client/service/api/GroupApi.dart';
+import 'package:Client/service/api/GuardianTypeApi.dart';
+import 'package:Client/service/api/StudentApi.dart';
 import 'package:Client/service/api/StudentIdTypeApi.dart';
 import 'package:get_it/get_it.dart';
 
@@ -21,6 +23,8 @@ void setupLocator() {
   locator.registerLazySingleton(() => FieldApi());
   locator.registerLazySingleton(() => StudentIdTypeApi());
   locator.registerLazySingleton(() => GroupApi());
+  locator.registerLazySingleton(() => StudentApi());
+  locator.registerLazySingleton(() => GuardianTypeApi());
 }
 
 int get currentBranchId => 30;

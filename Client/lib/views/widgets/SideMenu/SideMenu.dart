@@ -131,40 +131,47 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
               ),
             ],
           ),
-          Spacer(),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SideMenuItemModel("Branch", Icons.home, Routes.branchRoute),
-                SideMenuItemModel(
-                    "Class", Icons.supervised_user_circle, Routes.classRoute),
-                SideMenuItemModel(
-                    "Batch", Icons.admin_panel_settings, Routes.batchRoute),
-                SideMenuItemModel("Course", Icons.ac_unit, Routes.courseRoute),
-                SideMenuItemModel(
-                    "Fee Type", Icons.add_road_rounded, Routes.feeTypeRoute),
-                SideMenuItemModel("Batch Fee Type", Icons.add_road_rounded,
-                    Routes.batchFeeTypeRoute),
-                SideMenuItemModel(
-                    "Custom Field", Icons.add_road_rounded, Routes.fieldRoute),
-                SideMenuItemModel("Student ID Type", Icons.add_road_rounded,
-                    Routes.studentIdTypeRoute),
-                SideMenuItemModel(
-                    "Student Groups", Icons.add_road_rounded, Routes.groupRoute)
-              ].asMap().entries.map((e) {
-                return SideMenuItem(
-                  title: e.value.title,
-                  icon: e.value.icon,
-                  isCollapsed: isCollapsed,
-                  isSelected: e.key == selectedIndex,
-                  index: e.key,
-                  duration: animationDuration,
-                  selectItem: selectItem,
-                  fadeAnimation: _fadeAnimation,
-                  slideAnimation: _slideAnimation,
-                  pageRoute: e.value.pageRoute,
-                );
-              }).toList()),
+          Expanded(
+            child: ListView(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+              SideMenuItemModel("Branch", Icons.home, Routes.branchRoute),
+              SideMenuItemModel(
+                  "Class", Icons.supervised_user_circle, Routes.classRoute),
+              SideMenuItemModel(
+                  "Batch", Icons.admin_panel_settings, Routes.batchRoute),
+              SideMenuItemModel("Course", Icons.ac_unit, Routes.courseRoute),
+              SideMenuItemModel(
+                  "Fee Type", Icons.add_road_rounded, Routes.feeTypeRoute),
+              SideMenuItemModel("Batch Fee Type", Icons.add_road_rounded,
+                  Routes.batchFeeTypeRoute),
+              SideMenuItemModel(
+                  "Custom Field", Icons.add_road_rounded, Routes.fieldRoute),
+              SideMenuItemModel("Student ID Type", Icons.add_road_rounded,
+                  Routes.studentIdTypeRoute),
+              SideMenuItemModel(
+                  "Student Groups", Icons.add_road_rounded, Routes.groupRoute),
+              SideMenuItemModel("Add Student", Icons.add_road_rounded,
+                  Routes.studentFormRoute),
+              SideMenuItemModel("Guardian Type", Icons.add_road_rounded,
+                  Routes.guardianTypeRoute),
+              SideMenuItemModel("Student List", Icons.add_road_rounded,
+                  Routes.studentsListRoute)
+            ].asMap().entries.map((e) {
+              return SideMenuItem(
+                title: e.value.title,
+                icon: e.value.icon,
+                isCollapsed: isCollapsed,
+                isSelected: e.key == selectedIndex,
+                index: e.key,
+                duration: animationDuration,
+                selectItem: selectItem,
+                fadeAnimation: _fadeAnimation,
+                slideAnimation: _slideAnimation,
+                pageRoute: e.value.pageRoute,
+              );
+            }).toList()),
+          ),
           SizedBox(height: 30)
         ],
       ),

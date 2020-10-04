@@ -17,6 +17,10 @@ namespace Persistence
         public DbSet<TeacherField> TeacherFields { get; set; }
         public DbSet<StaffField> StaffFields { get; set; }
 
+        public DbSet<Photo> Photos { get; set; }
+
+        public DbSet<Phone> Phones { get; set; }
+
         public DbSet<Class> Classes { get; set; }
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Course> Courses { get; set; }

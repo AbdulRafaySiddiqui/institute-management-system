@@ -13,7 +13,7 @@ namespace Domain
 
         public virtual List<GuardianField> GuardianFields { get; set; }
 
-        public virtual ObservableCollection<Phone> Phones { get; set; } = new ObservableCollection<Phone>();
+        public virtual List<Phone> Phones { get; set; } = new List<Phone>();
 
         [Required]
         public int GuardianTypeId { get; set; }

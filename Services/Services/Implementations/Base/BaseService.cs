@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,7 +14,7 @@ namespace Services
     public class BaseService<T> : IBaseService<T> where T : BaseModel
     {
         protected ImsContext _context = null;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        protected readonly IHttpContextAccessor _httpContextAccessor;
         protected DbSet<T> _entity = null;
 
         public BaseService(ImsContext context, IHttpContextAccessor httpContextAccessor)
@@ -25,7 +24,8 @@ namespace Services
             _entity = _context.Set<T>();
         }
 
-        public async Task<T> GetByIdAsync(int id,
+        public virtual async Task<T> GetByIdAsync(
+            int id,
             Expression<Func<T, object>>[] includeFuncs)
         {
             var item = await _entity.FindAsync(id);
@@ -38,24 +38,27 @@ namespace Services
 
                 foreach (var include in includeFuncs)
                 {
-                    if (typeof(IEnumerable).IsAssignableFrom(include.Body.Type))
-                    {
-                        var inc = include as Expression<Func<T, IEnumerable<object>>>;
-                        if (inc != null)
-                        {
-                            await _context.Entry(item).Collection(inc).LoadAsync();
-                        }
-                    }
-                    else
-                        await _context.Entry(item).Reference(include).LoadAsync();
+                    var propertyName = ((MemberExpression)include.Body).Member.Name;
+                    await _context.Entry(item).Navigation(propertyName).LoadAsync();
+
+                    //if (typeof(IEnumerable).IsAssignableFrom(include.Body.Type))
+                    //{
+                    //    var inc = (Expression<Func<T, IEnumerable<object>>>)include;
+                    //    if (inc != null)
+                    //    {
+                    //        await _context.Entry(item).Collection(inc).LoadAsync();
+                    //    }
+                    //}
+                    //else
+                    //    await _context.Entry(item).Reference(include).LoadAsync();
                 }
             }
             return item;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<TValue>(
+        public virtual async Task<IEnumerable<T>> GetAllAsync<TValue>(
+           TValue predicateValue,
             Expression<Func<T, TValue>> wherePredicate,
-            TValue predicateValue,
             Expression<Func<T, object>>[] includeFuncs)
         {
             var query = _entity.AsQueryable();
@@ -96,7 +99,7 @@ namespace Services
             return obj;
         }
 
-        public void Update(T obj)
+        public virtual void Update(T obj)
         {
             obj.DateTimeModified = DateTime.Now;
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -104,7 +107,7 @@ namespace Services
             _entity.Update(obj);
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             T existing = _entity.Find(id);
             _entity.Remove(existing);
@@ -122,6 +125,5 @@ namespace Services
 
             return (int)obj.GetType().GetProperty(keyName).GetValue(obj, null);
         }
-
     }
 }

@@ -25,5 +25,7 @@ namespace Domain
         public virtual List<TeacherCourse> TeacherCourses { get; set; }
 
         public virtual List<StudentBatch> StudentBatches { get; set; }
+
+        public virtual List<Group> Groups { get; set; }
     }
 }

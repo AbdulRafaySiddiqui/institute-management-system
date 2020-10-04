@@ -20,11 +20,12 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
   final isLoading = false.obs;
   final selectedIndex = (-1).obs;
   T get selectedItem =>
-      selectedIndex.value > -1 ? _itemsList[selectedIndex.value] : null;
+      selectedIndex.value > -1 ? itemsList[selectedIndex.value] : null;
   List<bool> get selectedItems =>
       List<bool>.generate(_itemsList.length, (i) => selectedIndex.value == i);
   final _itemsList = <T>[].obs;
   List<T> get itemsList => [..._itemsList];
+  set itemsList(value) => _itemsList.value = value;
   final isAdding = false.obs;
   final isUpdating = false.obs;
   final isDeleting = false.obs;
@@ -84,7 +85,6 @@ abstract class BaseItemController<T extends BaseModel, TApi extends BaseApi<T>>
       } else {
         _itemsList[selectedIndex.value] = response;
       }
-      selectedItems.add(false);
     }
 
     isUpdating.value = false;

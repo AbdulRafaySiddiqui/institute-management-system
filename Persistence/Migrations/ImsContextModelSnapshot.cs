@@ -226,13 +226,15 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DateTimeModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FeeTypeId")
+                    b.Property<int?>("FeeTypeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("DiscountId");
@@ -886,9 +888,6 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -907,8 +906,6 @@ namespace Persistence.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("GuardianTypeId");
-
-                    b.HasIndex("BranchId");
 
                     b.ToTable("GuardianTypes");
                 });
@@ -962,7 +959,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Phone");
+                    b.ToTable("Phones");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
@@ -989,7 +986,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("PhotoId");
 
-                    b.ToTable("Photo");
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("Domain.Setting", b =>
@@ -1300,10 +1297,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.StudentBatch", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BatchId")
+                    b.Property<int?>("BatchId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -1341,7 +1338,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DateTimeModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FieldId")
+                    b.Property<int?>("FieldId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
@@ -1365,10 +1363,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.StudentGuardian", b =>
                 {
-                    b.Property<int>("GuardianId")
+                    b.Property<int?>("GuardianId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -1432,10 +1430,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.StudentSubgroup", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubgroupId")
+                    b.Property<int?>("SubgroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -1975,7 +1973,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.FeeType", "FeeType")
                         .WithMany("BatchFeeTypes")
                         .HasForeignKey("FeeTypeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2031,7 +2029,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.ExamType", "ExamType")
                         .WithMany()
                         .HasForeignKey("ExamTypeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2055,7 +2053,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2116,7 +2114,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Guardian", "Guardian")
                         .WithMany()
                         .HasForeignKey("GuardianId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2154,7 +2152,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Group", b =>
                 {
                     b.HasOne("Domain.Batch", "Batch")
-                        .WithMany()
+                        .WithMany("Groups")
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2188,30 +2186,24 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.GuardianType", b =>
-                {
-                    b.HasOne("Domain.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Phone", b =>
                 {
-                    b.HasOne("Domain.Guardian", null)
+                    b.HasOne("Domain.Guardian", "Guardian")
                         .WithMany("Phones")
-                        .HasForeignKey("GuardianId");
+                        .HasForeignKey("GuardianId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.Staff", null)
+                    b.HasOne("Domain.Staff", "Staff")
                         .WithMany("Phones")
-                        .HasForeignKey("StaffId");
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.Student", null)
+                    b.HasOne("Domain.Student", "Student")
                         .WithMany("Phones")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.Teacher", null)
+                    b.HasOne("Domain.Teacher", "Teacher")
                         .WithMany("Phones")
                         .HasForeignKey("TeacherId");
                 });
@@ -2296,13 +2288,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Batch", "Batch")
                         .WithMany("StudentBatches")
                         .HasForeignKey("BatchId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Student", "Student")
                         .WithMany("StudentBatches")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -2332,7 +2324,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Student", "Student")
                         .WithMany("StudentGuardians")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -2341,7 +2333,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Branch", "Branch")
                         .WithMany()
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2350,13 +2342,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Student", "Student")
                         .WithMany("StudentSubgroups")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Subgroup", "Subgroup")
                         .WithMany("StudentSubgroups")
                         .HasForeignKey("SubgroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2365,7 +2357,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Group", "Group")
                         .WithMany("Subgroups")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2404,7 +2396,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Course", "Course")
                         .WithMany("TeacherCourses")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Subgroup", "Subgroup")
@@ -2416,7 +2408,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Teacher", "Teacher")
                         .WithMany("TeacherCourses")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

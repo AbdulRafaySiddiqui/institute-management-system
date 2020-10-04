@@ -27,6 +27,7 @@ class GroupView extends StatelessWidget {
           () => BaseListCard(
             isLoading: controller.isFetchingData.value,
             filters: [
+              //Class
               DropdownButton(
                   hint: Text(EntityNames.className),
                   value: controller.selectedClass.value,
@@ -39,6 +40,7 @@ class GroupView extends StatelessWidget {
                       )
                       ?.toList(),
                   onChanged: (value) => controller.selectClass(value)),
+              //Batch
               DropdownButton(
                   hint: Text(EntityNames.batchName),
                   value: controller.selectedBatch.value,
@@ -85,7 +87,11 @@ _form({bool isUpdateForm = false, Map<String, dynamic> value}) {
   }
 
   //list of subgroups
-  final subgroups = <SubgroupModel>[SubgroupModel()].obs;
+  var subgroups;
+  if (isUpdateForm)
+    subgroups = controller.updateSubgroups;
+  else
+    subgroups = controller.addSubgroups;
 
   if (isUpdateForm && value != null) {
     //map all subgroup's id & name outside of the nested list,

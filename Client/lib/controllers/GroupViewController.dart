@@ -38,7 +38,7 @@ class GroupViewController extends BaseItemController<GroupModel, GroupApi> {
   @override
   List<GroupModel> get itemsList => super
       .itemsList
-      .where((e) => e.batchId == selectedBatch.value.id)
+      .where((e) => e.batchId == selectedBatch.value?.id)
       .toList();
 
   selectClass(ClassModel model) {
@@ -62,14 +62,18 @@ class GroupViewController extends BaseItemController<GroupModel, GroupApi> {
     }
   }
 
-  Map<String, dynamic> extractSubgroups(Map<String, dynamic> map) {
+  final addSubgroups = <SubgroupModel>[SubgroupModel()].obs;
+  final updateSubgroups = <SubgroupModel>[SubgroupModel()].obs;
+
+  Map<String, dynamic> extractSubgroups(
+      Map<String, dynamic> map, bool isUpdate) {
     var item = GroupModel.fromJson(map);
-    bool loop = true;
-    int i = 0;
     List<SubgroupModel> subgroupList = [];
-    while (loop) {
+    int length =
+        isUpdate == false ? addSubgroups.length : updateSubgroups.length;
+    for (var i = 0; i < length; i++) {
       var id = "subgroups.id.$i";
-      var value = "subgroups.name.${i++}";
+      var value = "subgroups.name.$i";
       if (map.containsKey(value)) {
         var subgroup = SubgroupModel();
         subgroup.name = map[value];
@@ -77,8 +81,6 @@ class GroupViewController extends BaseItemController<GroupModel, GroupApi> {
           subgroup.id = map[id];
         }
         subgroupList.add(subgroup);
-      } else {
-        loop = false;
       }
     }
     item.subgroups = subgroupList;
@@ -87,13 +89,13 @@ class GroupViewController extends BaseItemController<GroupModel, GroupApi> {
 
   @override
   Future<void> addItem(Map<String, dynamic> map) {
-    var value = extractSubgroups(map);
+    var value = extractSubgroups(map, false);
     return super.addItem(value);
   }
 
   @override
   Future<void> updateItem(Map<String, dynamic> map) {
-    var value = extractSubgroups(map);
+    var value = extractSubgroups(map, true);
     return super.updateItem(value);
   }
 }

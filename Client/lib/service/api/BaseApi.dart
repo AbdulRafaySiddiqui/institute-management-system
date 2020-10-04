@@ -22,8 +22,8 @@ abstract class BaseApi<T extends BaseModel> {
   T fromJson(Map<String, dynamic> map);
 
   Future fetchAll({int id}) async {
-    if (_useFilteredFetchOnly && id == null && id == 0)
-      throw Exception("Id cannot be null or empty.");
+    if (_useFilteredFetchOnly && (id == null || id == 0))
+      throw Exception("Filter Id cannot be null or empty.");
     try {
       var url = _useFilteredFetchOnly ? "$_url/filter/$id" : _url;
       var response = await http.get(url, headers: _header);
@@ -35,7 +35,22 @@ abstract class BaseApi<T extends BaseModel> {
         return items;
       }
 
-      return 'Could not fetch data at this time.';
+      return 'Could not fetch data at this time. ${response.statusCode}';
+    } catch (e) {
+      return _defaultErrorMessage;
+    }
+  }
+
+  Future getById(int id) async {
+    try {
+      if (id == null || id == 0) return "Arguments cannot be empty";
+
+      var response = await http.get("$_url/$id", headers: _header);
+
+      if (response.statusCode == 200) {
+        return fromJson(json.decode(response.body));
+      }
+      return 'Could not fetch data at this time. ${response.statusCode}';
     } catch (e) {
       return _defaultErrorMessage;
     }

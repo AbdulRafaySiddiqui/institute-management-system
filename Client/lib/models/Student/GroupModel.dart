@@ -30,4 +30,6 @@ class GroupModel extends BaseModel {
     });
     return map;
   }
+
+  SubgroupModel selectedSubgroup;
 }

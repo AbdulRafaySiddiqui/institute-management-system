@@ -10,7 +10,7 @@ namespace Domain
         public string Value { get; set; }
 
         [Required]
-        public int FieldId { get; set; }
+        public int? FieldId { get; set; }
         public virtual Field Field { get; set; }
 
         [Required]

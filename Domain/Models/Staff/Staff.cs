@@ -14,7 +14,7 @@ namespace Domain
         public int? PhotoId { get; set; }
         public virtual Photo Photo { get; set; }
         
-        public virtual List<TeacherField> TeacherFields { get; set; }
+        public virtual List<StaffField> StaffFields { get; set; }
         
         public virtual List<Phone> Phones { get; set; }
         

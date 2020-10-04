@@ -4,7 +4,7 @@ import 'package:Client/models/Enum/PersonType.dart';
 import 'package:Client/models/Enum/ValidationType.dart';
 import 'package:Client/models/Field/FieldValueModel.dart';
 
-class FieldModel extends BaseModel {
+class FieldModel extends BaseModel with Comparable {
   FieldModel({int id, this.name}) : super(id: id);
   PersonType personType = PersonType.Student;
   String name;
@@ -44,5 +44,10 @@ class FieldModel extends BaseModel {
       "defaultValues": defaultValues?.map((e) => e.toJson())?.toList()
     });
     return map;
+  }
+
+  @override
+  int compareTo(other) {
+    return orderIndex.compareTo(other.orderIndex);
   }
 }
