@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Domain;
-using Microsoft.AspNetCore.Mvc;
 using Services;
+using System;
+using System.Linq.Expressions;
 
 namespace API
 {
@@ -16,11 +13,5 @@ namespace API
             includeFuncs: new Expression<Func<Field, object>>[] { e => e.DefaultValues }
           )
         { }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Field>>> Get()
-        {
-            return Ok(await _service.GetAllAsync(null,0, _includeFuncs));
-        }
     }
 }

@@ -31,21 +31,32 @@ namespace API
             _includeFuncs = includeFuncs;
         }
 
-        [Route("filter")]
-        [HttpGet("filter/{id}")]
-        public async Task<ActionResult<IEnumerable<T>>> Get(int id)
+
+        [HttpGet]
+        public virtual async Task<ActionResult<IEnumerable<Branch>>> Get()
         {
             if (_filterProp == null)
             {
-                return BadRequest("Not allowed");
+                return Ok(await _service.GetAllAsync(0, null, _includeFuncs));
             }
-            return Ok(await _service.GetAllAsync(_filterProp, id, _includeFuncs));
+            return BadRequest("Method Not Allowed. Use the '/filter/<filterId>' endpoint");
+        }
+
+        [Route("filter")]
+        [HttpGet("filter/{id}")]
+        public virtual async Task<ActionResult<IEnumerable<T>>> Get(int id)
+        {
+            if (_filterProp != null)
+            {
+                return Ok(await _service.GetAllAsync(id, _filterProp, _includeFuncs));
+            }
+            return BadRequest("Method Not allowed. Use endpoint without /filter");
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<T>> GetById(int id)
+        public virtual async Task<ActionResult<T>> GetById(int id)
         {
-            var entity = await _service.GetByIdAsync(id,_includeFuncs);
+            var entity = await _service.GetByIdAsync(id, _includeFuncs);
             if (entity == null)
             {
                 return NotFound();
@@ -54,7 +65,7 @@ namespace API
         }
 
         [HttpPost]
-        public async Task<ActionResult<T>> Add([FromBody] T entity)
+        public virtual async Task<ActionResult<T>> Add([FromBody] T entity)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +79,7 @@ namespace API
         }
 
         [HttpPut]
-        public async Task<ActionResult<T>> Update([FromBody] T entity)
+        public virtual async Task<ActionResult<T>> Update([FromBody] T entity)
         {
             var id = _service.GetKey(entity);
             if (id == 0)
@@ -79,16 +90,16 @@ namespace API
             {
                 _service.Update(entity);
                 await _service.SaveAsync();
-                var _updatedEntity = await _service.GetByIdAsync(id,_includeFuncs);
+                var _updatedEntity = await _service.GetByIdAsync(id, _includeFuncs);
                 return Ok(_updatedEntity);
             }
             return ValidationProblem(ModelState);
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] JsonPatchDocument<T> patchDoc)
+        public virtual async Task<ActionResult> Update(int id, [FromBody] JsonPatchDocument<T> patchDoc)
         {
-            var _entity = await _service.GetByIdAsync(id,_includeFuncs);
+            var _entity = await _service.GetByIdAsync(id, _includeFuncs);
             if (_entity == null)
             {
                 return NotFound();
@@ -107,9 +118,9 @@ namespace API
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public virtual async Task<ActionResult> Delete(int id)
         {
-            var _entity = await _service.GetByIdAsync(id,_includeFuncs);
+            var _entity = await _service.GetByIdAsync(id, _includeFuncs);
             if (_entity == null)
             {
                 return NotFound();
