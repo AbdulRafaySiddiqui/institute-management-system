@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    public static class  ConfigureModels
+    public static class ConfigureModels
     {
         public static ModelBuilder UseConfigureModels(this ModelBuilder modelBuilder)
         {
@@ -23,80 +23,103 @@ namespace Persistence
                 HasKey(studentSubgroup => new { studentSubgroup.StudentId, studentSubgroup.SubgroupId });
 
 
+
             //resolving cascading delete
+
+            modelBuilder.Entity<Phone>()
+                .HasOne(i => i.Student)
+                .WithMany(i => i.Phones)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Phone>()
+               .HasOne(i => i.Guardian)
+               .WithMany(i => i.Phones)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Phone>()
+               .HasOne(i => i.Staff)
+               .WithMany(i => i.Phones)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            //TODO: Solve the Teacher Phone cascade delete problem with multiple cascade paths
+            modelBuilder.Entity<Phone>()
+               .HasOne(i => i.Teacher)
+               .WithMany(i => i.Phones)
+               .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<StudentGuardian>()
                 .HasOne(sg => sg.Student)
                 .WithMany(s => s.StudentGuardians)
                 .HasForeignKey(sg => sg.StudentId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BatchFeeType>()
                 .HasOne(sg => sg.FeeType)
                 .WithMany(s => s.BatchFeeTypes)
                 .HasForeignKey(sg => sg.FeeTypeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TeacherCourse>()
                 .HasOne(sg => sg.Teacher)
                 .WithMany(s => s.TeacherCourses)
                 .HasForeignKey(sg => sg.TeacherId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TeacherCourse>()
               .HasOne(sg => sg.Course)
               .WithMany(c => c.TeacherCourses)
               .HasForeignKey(tc => tc.CourseId)
-              .OnDelete(DeleteBehavior.NoAction);
+              .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<StudentBatch>()
                 .HasOne(sg => sg.Student)
                 .WithMany(s => s.StudentBatches)
                 .HasForeignKey(sg => sg.StudentId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StudentBatch>()
                .HasOne(sg => sg.Batch)
                .WithMany(s => s.StudentBatches)
                .HasForeignKey(sg => sg.BatchId)
-               .OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<StudentSubgroup>()
                 .HasOne(sg => sg.Student)
                 .WithMany(s => s.StudentSubgroups)
                 .HasForeignKey(sg => sg.StudentId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StudentSubgroup>()
                .HasOne(sg => sg.Subgroup)
                .WithMany(s => s.StudentSubgroups)
                .HasForeignKey(sg => sg.SubgroupId)
-               .OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Exam>()
                 .HasOne(sg => sg.ExamType)
                 .WithMany()
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<StudentIdType>()
                 .HasOne(sg => sg.Branch)
                 .WithMany()
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<FeeCollection>()
                 .HasOne(a => a.Guardian)
                 .WithMany()
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ExamGradeType>()
                 .HasOne(a => a.Course)
                 .WithMany()
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Subgroup>()
               .HasOne(sg => sg.Group)
               .WithMany(s => s.Subgroups)
               .HasForeignKey(sg => sg.GroupId)
-              .OnDelete(DeleteBehavior.NoAction);
+              .OnDelete(DeleteBehavior.Restrict);
 
             //to disable cascade delete for entire database
             //var cascadeFKs = modelBuilder.Model.GetEntityTypes()
